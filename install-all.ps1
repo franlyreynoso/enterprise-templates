@@ -11,6 +11,12 @@ Write-Host "🚀 Enterprise Templates Installation" -ForegroundColor Cyan
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host ""
 
+if (-not $Force) {
+    Write-Host "💡 Tip: If you have existing installations, use -Force to reinstall" -ForegroundColor Yellow
+    Write-Host "   Example: .\install-all.ps1 -Force" -ForegroundColor Gray
+    Write-Host ""
+}
+
 $ErrorActionPreference = "Stop"
 
 # Check prerequisites
@@ -35,19 +41,40 @@ function Install-Template {
     Write-Host "📦 Installing $Name..." -ForegroundColor Blue
 
     try {
-        if ($Force) {
-            & dotnet new uninstall $Path 2>$null
+        # Normalize path to avoid case sensitivity issues on Windows
+        $normalizedPath = (Resolve-Path $Path -ErrorAction SilentlyContinue).Path
+        if (-not $normalizedPath) {
+            $normalizedPath = (Get-Item $Path -ErrorAction SilentlyContinue).FullName
+        }
+        
+        if (-not $normalizedPath) {
+            Write-Error "❌ Path not found: $Path"
+            throw "Template path does not exist: $Path"
         }
 
-        $output = & dotnet new install $Path 2>&1
+        if ($Force) {
+            Write-Host "   Uninstalling existing installation..." -ForegroundColor Gray
+            & dotnet new uninstall $normalizedPath 2>&1 | Out-Null
+        }
 
-        if ($LASTEXITCODE -eq 0) {
+        $output = & dotnet new install $normalizedPath 2>&1
+        $exitCode = $LASTEXITCODE
+
+        if ($exitCode -eq 0) {
             Write-Host "✅ $Name installed successfully!" -ForegroundColor Green
             if ($Verbose) {
                 Write-Host "   $Description" -ForegroundColor Gray
+                Write-Host "   Path: $normalizedPath" -ForegroundColor Gray
             }
         } else {
-            Write-Warning "⚠️ $Name may already be installed. Use -Force to reinstall."
+            # Check if already installed
+            if ($output -match "already installed" -or $output -match "conflicts") {
+                Write-Warning "⚠️ $Name may already be installed. Use -Force to reinstall."
+                Write-Host "   Run: .\install-all.ps1 -Force" -ForegroundColor Gray
+            } else {
+                Write-Warning "⚠️ Installation may have issues. Check output:"
+                Write-Host $output -ForegroundColor Gray
+            }
             if ($Verbose) {
                 Write-Host $output -ForegroundColor Gray
             }
@@ -118,6 +145,7 @@ catch {
     Write-Host "🛠️ Troubleshooting:" -ForegroundColor Yellow
     Write-Host "  - Ensure you have .NET 9.0 SDK installed" -ForegroundColor Gray
     Write-Host "  - Try running with -Force to reinstall existing templates" -ForegroundColor Gray
+    Write-Host "  - If you have duplicate/conflicting installations, run: .\uninstall-all.ps1" -ForegroundColor Gray
     Write-Host "  - Check that all template directories contain valid .template.config/template.json files" -ForegroundColor Gray
     exit 1
 }
