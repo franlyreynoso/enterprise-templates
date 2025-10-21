@@ -6,35 +6,34 @@ A complete enterprise fullstack solution orchestrating Blazor Server Web applica
 
 This template generates a workspace that coordinates both Web and API templates:
 
-### 1. Generate Individual Projects
+### 1. Generate the Fullstack Workspace
 
 ```bash
-# Generate Web project
-dotnet new blazor-enterprise -n MyWebApp
-
-# Generate API project
-dotnet new enterprise-clean -n MyApiApp
+dotnet new enterprise-fullstack -n MyCompany.Fullstack
+cd MyCompany.Fullstack
 ```
 
-### 2. Configure Project Names
+### 2. Start Development Environment
 
-Update the `.env.dev` file (and other environment files as needed) to point to your actual project names:
-
-```bash
-# In .env.dev, .env.staging, .env.prod
-WEB_PROJECT=MyWebApp
-API_PROJECT=MyApiApp
-```
-
-### 3. Start Development Environment
+The environment setup will automatically generate the Web and API projects on first run:
 
 ```bash
-# Start complete fullstack environment
+# This will automatically:
+# - Generate Web project (if not exists)
+# - Generate API project (if not exists)
+# - Update .env files with project names
+# - Start the full stack
 make up-fullstack
+```
 
-# Or start components individually
-make up-web
-make up-api
+Or manually generate projects first:
+
+```bash
+# Generate projects with custom options
+./setup.ps1 -WebProjectName "MyWeb" -APIProjectName "MyApi"
+
+# Then start the environment
+make up-fullstack
 ```
 
 ### 3. Access Services

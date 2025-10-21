@@ -26,48 +26,34 @@ dotnet new install Enterprise.Templates.Blazor
 dotnet new install Enterprise.Templates.CleanArchitecture
 ```
 
-### 2. Generate Your Projects
+### 2. Generate the Fullstack Workspace
 
-Create a new directory for your fullstack solution and navigate to it:
-
-```bash
-mkdir my-fullstack-app
-cd my-fullstack-app
-```
-
-Generate the orchestrator template:
+Create your fullstack solution:
 
 ```bash
-dotnet new enterprise-fullstack -n MyCompany.MyApp
-cd MyCompany.MyApp
+dotnet new enterprise-fullstack -n MyCompany.Fullstack
+cd MyCompany.Fullstack
 ```
 
-Generate the Web and API projects:
+### 3. Start the Development Environment
 
-```bash
-# Generate Web project
-dotnet new blazor-enterprise -n MyCompany.Web
-
-# Generate API project
-dotnet new enterprise-clean -n MyCompany.Api
-```
-
-### 3. Configure Project Names
-
-Edit the `.env.dev` file (and `.env.staging`, `.env.prod` if needed) to specify your project names:
-
-```bash
-# In .env.dev
-WEB_PROJECT=MyCompany.Web
-API_PROJECT=MyCompany.Api
-```
-
-### 4. Start the Development Environment
-
-Now you can start the full development environment:
+The environment setup will automatically generate Web and API projects on first run:
 
 ```bash
 make up-fullstack
+```
+
+This command will:
+1. Check if Web and API projects exist
+2. If they don't exist, automatically run `make setup` to generate them
+3. Update `.env` files with the generated project names
+4. Start the full development stack
+
+Alternatively, you can manually generate projects first with custom options:
+
+```bash
+# Generate projects with specific names and features
+./setup.ps1 -WebProjectName "MyWeb" -APIProjectName "MyApi" -Cloud "Azure" -Database "Postgres"
 ```
 
 This will start:
@@ -81,7 +67,7 @@ This will start:
 - pgAdmin (database management)
 - MailHog (email testing)
 
-### 5. Access Your Applications
+### 4. Access Your Applications
 
 - **Web Application**: http://localhost:3000
 - **API**: http://localhost:5000
@@ -93,7 +79,15 @@ This will start:
 
 ## Common Issues
 
-### "Project not found" Error
+### Projects Generated Automatically
+
+When you run `make up-fullstack` for the first time, it will automatically generate the Web and API projects using default names (`WEB_PROJECT_NAME` and `API_PROJECT_NAME`). If you want custom names, run the setup script manually first:
+
+```bash
+./setup.ps1 -WebProjectName "MyCustomWeb" -APIProjectName "MyCustomApi"
+```
+
+### "Project not found" Error (Legacy)
 
 If you see an error like:
 ```

@@ -17,7 +17,7 @@ up-api: check-projects
 	@powershell -NoProfile -Command "Write-Host 'Starting API services with infrastructure...' -ForegroundColor Magenta; $$env:COMPOSE_PROFILES='backend-infra'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'API services started! API: http://localhost:$${API_HTTP_PORT:-5000}' -ForegroundColor Cyan"
 
 check-projects:
-	@powershell -NoProfile -Command "if (-not (Test-Path '$(WEB_PROJECT)')) { Write-Host '❌ Web project ''$(WEB_PROJECT)'' not found!' -ForegroundColor Red; Write-Host 'Please:' -ForegroundColor Yellow; Write-Host '  1. Generate projects: make setup' -ForegroundColor Yellow; Write-Host '  2. Or update WEB_PROJECT in .env.$(ENV) to match your actual project directory' -ForegroundColor Yellow; exit 1 }; if (-not (Test-Path '$(API_PROJECT)')) { Write-Host '❌ API project ''$(API_PROJECT)'' not found!' -ForegroundColor Red; Write-Host 'Please:' -ForegroundColor Yellow; Write-Host '  1. Generate projects: make setup' -ForegroundColor Yellow; Write-Host '  2. Or update API_PROJECT in .env.$(ENV) to match your actual project directory' -ForegroundColor Yellow; exit 1 }"
+	@powershell -NoProfile -Command "if (-not (Test-Path '$(WEB_PROJECT)') -or -not (Test-Path '$(API_PROJECT)')) { Write-Host '📦 Projects not found. Running setup...' -ForegroundColor Yellow; $$setupResult = & $(MAKE) setup; if ($$LASTEXITCODE -ne 0) { exit 1 } }"
 
 up-dev:
 	@$(MAKE) up-fullstack ENV=dev
