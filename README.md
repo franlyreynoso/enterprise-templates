@@ -41,7 +41,7 @@ enterprise-templates/
 
 ### Perfect Backend Alignment
 
-- UI template matches backend patterns exactly:
+- Web template matches backend patterns exactly:
   - Makefile with PowerShell detection and COMPOSE_PROFILES
   - Single docker-compose.envs.yml with profiles ["dev", "staging", "prod"]
   - Backend variable naming (DB_USER, DB_PASS, etc.)
@@ -65,7 +65,7 @@ cd templates/fullstack-orchestrator && dotnet new install .
 
 ```bash
 # Individual templates
-dotnet new blazor-enterprise -n MyCompany.UI
+dotnet new blazor-enterprise -n MyCompany.Web
 dotnet new enterprise-clean -n MyCompany.API
 
 # Full-stack orchestration

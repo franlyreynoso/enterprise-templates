@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 # Enterprise Templates - Install All Templates
-# Installs UI template, backend template, and fullstack orchestrator
+# Installs Web template, backend template, and fullstack orchestrator
 
 param(
     [switch]$Force = $false,

@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 # Enterprise Fullstack Setup Script
-# Generates UI and API projects and sets up the complete development environment
+# Generates Web and API projects and sets up the complete development environment
 
 param(
     [string]$WebProjectName = "WEB_PROJECT_NAME",
@@ -57,7 +57,7 @@ if (-not $SkipGeneration) {
     else {
         Write-Host "� Generating Web project..." -ForegroundColor Blue
         $webArgs = @(
-            "new", "blazor-enterprise-web", "-n", $WebProjectName,
+            "new", "blazor-enterprise", "-n", $WebProjectName,
             "--IncludeAuth", $EnableAuth.ToString().ToLower(),
             "--IncludeObservability", $EnableObservability.ToString().ToLower(),
             "--BackendIntegration", "true"
@@ -66,7 +66,7 @@ if (-not $SkipGeneration) {
         & dotnet @webArgs
 
         if ($LASTEXITCODE -ne 0) {
-            Write-Error "❌ Failed to generate Web project. Make sure 'blazor-enterprise-web' template is installed."
+            Write-Error "❌ Failed to generate Web project. Make sure 'blazor-enterprise' template is installed."
             exit 1
         }
 
