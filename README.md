@@ -6,7 +6,7 @@ A comprehensive collection of .NET enterprise templates with perfect backend int
 
 This monorepo contains:
 
-- **UI Template**: Enterprise Blazor Server template with backend integration capability
+- **Web Template**: Enterprise Blazor Server template with backend integration capability
 - **Backend Template**: Clean Architecture microservice with CQRS/MediatR
 - **Fullstack Orchestrator**: Meta-template that coordinates both templates independently
 
@@ -15,14 +15,12 @@ This monorepo contains:
 ```
 enterprise-templates/
 ├── templates/
-│   ├── ui-template/                    # Enterprise Blazor Server template
+│   ├── web-template/                   # Enterprise Blazor Server template
 │   ├── backend-template/              # Clean Architecture API template
 │   └── fullstack-orchestrator/        # Meta-template for coordination
 ├── docs/
 │   ├── ARCHITECTURE.md                # Orchestration architecture
-│   ├── UI-TEMPLATE.md                # UI template documentation
-│   ├── BACKEND-TEMPLATE.md           # Backend template documentation
-│   └── ORCHESTRATOR.md              # Meta-template documentation
+│   └── BACKEND-TEMPLATE.md           # Backend template documentation
 ├── install-all.ps1                   # Install all templates
 └── README.md                         # This file
 ```
@@ -58,7 +56,7 @@ enterprise-templates/
 .\install-all.ps1
 
 # Or install individually
-cd templates/ui-template && dotnet new install .
+cd templates/web-template && dotnet new install .
 cd templates/backend-template && dotnet new install .
 cd templates/fullstack-orchestrator && dotnet new install .
 ```
@@ -67,8 +65,8 @@ cd templates/fullstack-orchestrator && dotnet new install .
 
 ```bash
 # Individual templates
-dotnet new enterprise-ui -n MyCompany.UI
-dotnet new enterprise-api -n MyCompany.API
+dotnet new blazor-enterprise -n MyCompany.UI
+dotnet new enterprise-clean -n MyCompany.API
 
 # Full-stack orchestration
 dotnet new enterprise-fullstack -n MyCompany.Solution
@@ -78,8 +76,8 @@ dotnet new enterprise-fullstack -n MyCompany.Solution
 
 ```bash
 # In orchestrated workspace
-make up-fullstack         # Start UI + Backend + Database
-make up-ui-only          # Start UI template only
+make up-fullstack         # Start Web + Backend + Database
+make up-web-only          # Start web template only
 make up-backend-only     # Start backend template only
 make logs                # View all logs
 make down               # Stop everything
@@ -90,7 +88,7 @@ make down               # Stop everything
 ### 🏗️ Clean Separation
 
 - Templates remain independent and reusable
-- No coupling between UI and backend templates
+- No coupling between web and backend templates
 - Meta-template handles coordination without modification
 
 ### 🔄 Perfect Integration
@@ -108,9 +106,7 @@ make down               # Stop everything
 ## 📚 Documentation
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
-- **[UI Template](docs/UI-TEMPLATE.md)** - Blazor template details
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
-- **[Orchestrator](docs/ORCHESTRATOR.md)** - Meta-template usage
 
 ---
 

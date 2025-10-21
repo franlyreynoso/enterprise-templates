@@ -11,7 +11,7 @@ This monorepo implements a **meta-template orchestration** strategy where indivi
 ```
 enterprise-templates/
 ├── templates/
-│   ├── ui-template/              # 100% Independent Blazor Template
+│   ├── web-template/              # 100% Independent Blazor Template
 │   │   ├── .template.config/     # Own template configuration
 │   │   ├── src/                  # Blazor Server application
 │   │   ├── Makefile             # Backend-aligned commands
@@ -48,7 +48,7 @@ enterprise-templates/
 
 ### Perfect Backend Alignment
 
-The UI template achieves perfect integration by matching backend patterns exactly:
+The web template achieves perfect integration by matching backend patterns exactly:
 
 #### 1. **Makefile Architecture**
 
@@ -71,7 +71,7 @@ DB_USER=app
 DB_PASS=app
 POSTGRES_DB=enterprisetemplate_dev
 
-# UI Template Variables (identical)
+# Web Template Variables (identical)
 DB_USER=app
 DB_PASS=app
 POSTGRES_DB=enterprisetemplate_dev
@@ -87,7 +87,7 @@ POSTGRES_DB=enterprisetemplate_dev
 
 #### 4. **Port Coordination**
 
-| Service     | Backend     | UI        | Purpose         |
+| Service     | Backend     | Web       | Purpose         |
 | ----------- | ----------- | --------- | --------------- |
 | Application | 5000-5002   | 3000-3002 | Avoid conflicts |
 | PostgreSQL  | 5432-5434   | Same      | Shared service  |
@@ -104,20 +104,20 @@ POSTGRES_DB=enterprisetemplate_dev
 # fullstack-orchestrator/docker-compose.fullstack.yml
 services:
   postgres:
-    # Single database instance shared by UI and API
-    profiles: [fullstack, ui-infra, backend-infra, dev, staging, prod]
+    # Single database instance shared by web and API
+    profiles: [fullstack, web-infra, backend-infra, dev, staging, prod]
 
   redis:
-    # Single cache instance shared by UI and API
-    profiles: [fullstack, ui-infra, backend-infra, dev, staging, prod]
+    # Single cache instance shared by web and API
+    profiles: [fullstack, web-infra, backend-infra, dev, staging, prod]
 
   # ... other shared services
 ```
 
 ### Profile-Based Coordination
 
-- **`fullstack`**: Complete UI + API + Infrastructure
-- **`ui-infra`**: Infrastructure needed by UI template only
+- **`fullstack`**: Complete Web + API + Infrastructure
+- **`web-infra`**: Infrastructure needed by web template only
 - **`backend-infra`**: Infrastructure needed by backend template only
 - **`dev`/`staging`/`prod`**: Environment-specific configurations
 
@@ -125,13 +125,13 @@ services:
 
 ```bash
 # Development Environment
-make up ENV=dev     # Both UI (3000) and API (5000) with shared DB
+make up ENV=dev     # Both Web (3000) and API (5000) with shared DB
 
 # Staging Environment
-make up ENV=staging # Both UI (3001) and API (5001) with shared DB
+make up ENV=staging # Both Web (3001) and API (5001) with shared DB
 
 # Production Environment
-make up ENV=prod    # Both UI (3002) and API (5002) with shared DB
+make up ENV=prod    # Both Web (3002) and API (5002) with shared DB
 ```
 
 ## 🚀 Workflow Architecture
@@ -143,12 +143,12 @@ graph TD
     A[Developer] --> B[dotnet new enterprise-fullstack]
     B --> C[Orchestrator Template Generated]
     C --> D[make generate-all]
-    D --> E[UI Template Generated]
+    D --> E[Web Template Generated]
     D --> F[API Template Generated]
     E --> G[make up-fullstack]
     F --> G
     G --> H[Shared Infrastructure Started]
-    G --> I[UI App on :3000]
+    G --> I[Web App on :3000]
     G --> J[API App on :5000]
     I --> K[Same Database]
     J --> K
@@ -165,9 +165,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Orchestrator Workspace] --> B[Build UI Container]
+    A[Orchestrator Workspace] --> B[Build Web Container]
     A --> C[Build API Container]
-    B --> D[Deploy UI Service]
+    B --> D[Deploy Web Service]
     C --> E[Deploy API Service]
     D --> F[Shared Database]
     E --> F
@@ -208,7 +208,7 @@ graph TD
 ### Distributed Tracing Flow
 
 ```
-UI Request (3000) → API Call (5000) → Database Query
+Web Request (3000) → API Call (5000) → Database Query
          ↓               ↓              ↓
     Trace Span      Trace Span     Trace Span
          ↓               ↓              ↓
@@ -220,7 +220,7 @@ UI Request (3000) → API Call (5000) → Database Query
 ### Logging Architecture
 
 ```
-UI Logs ──┐
+Web Logs ──┐
           ├──→ Seq Collector (5341) ──→ Structured Analysis
 API Logs ─┘
 ```
@@ -229,7 +229,7 @@ API Logs ─┘
 
 ```
 make health
-├─ curl localhost:3000/health (UI)
+├─ curl localhost:3000/health (Web)
 ├─ curl localhost:5000/health/live (API)
 └─ docker compose ps (Infrastructure)
 ```
@@ -238,7 +238,7 @@ make health
 
 ### 1. **Clean Separation of Concerns**
 
-- Templates remain focused on their domain (UI vs API)
+- Templates remain focused on their domain (Web vs API)
 - No cross-template dependencies or coupling
 - Clear ownership and maintenance boundaries
 
@@ -257,7 +257,7 @@ make health
 ### 4. **Maintainable Evolution**
 
 - Templates can evolve independently
-- Backend updates don't break UI template
+- Backend updates don't break web template
 - New templates can be added without modification
 
 ### 5. **Developer Experience**
