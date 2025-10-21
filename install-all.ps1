@@ -63,8 +63,8 @@ Write-Host ""
 
 # Install templates in dependency order
 try {
-    # 1. UI Template
-    Install-Template -Name "Enterprise UI Template" -Path ".\templates\ui-template" -Description "Blazor Server enterprise template with backend integration"
+    # 1. Web Template
+    Install-Template -Name "Enterprise Web Template" -Path ".\templates\web-template" -Description "Blazor Server enterprise template with backend integration"
 
     # 2. Backend Template (if available - will use external)
     if (Test-Path ".\templates\backend-template\src") {
@@ -82,7 +82,7 @@ try {
     }
 
     # 3. Fullstack Orchestrator
-    Install-Template -Name "Enterprise Fullstack Orchestrator" -Path ".\templates\fullstack-orchestrator" -Description "Meta-template that coordinates UI and backend templates"
+    Install-Template -Name "Enterprise Fullstack Orchestrator" -Path ".\templates\fullstack-orchestrator" -Description "Meta-template that coordinates Web and backend templates"
 
     Write-Host ""
     Write-Host "🎉 All templates installed successfully!" -ForegroundColor Green
@@ -101,16 +101,15 @@ try {
     Write-Host "🚀 Quick Start:" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "  # Generate individual templates:" -ForegroundColor Gray
-    Write-Host "  dotnet new enterprise-ui -n MyCompany.UI" -ForegroundColor White
-    Write-Host "  dotnet new enterprise-api -n MyCompany.API" -ForegroundColor White
+    Write-Host "  dotnet new blazor-enterprise -n MyCompany.Web" -ForegroundColor White
+    Write-Host "  dotnet new enterprise-clean -n MyCompany.API" -ForegroundColor White
     Write-Host ""
     Write-Host "  # Generate fullstack solution:" -ForegroundColor Gray
     Write-Host "  dotnet new enterprise-fullstack -n MyCompany.Solution" -ForegroundColor White
     Write-Host ""
     Write-Host "📚 Documentation:" -ForegroundColor Yellow
-    Write-Host "  - UI Template: docs/UI-TEMPLATE.md" -ForegroundColor Gray
+    Write-Host "  - Architecture: docs/ARCHITECTURE.md" -ForegroundColor Gray
     Write-Host "  - Backend Template: docs/BACKEND-TEMPLATE.md" -ForegroundColor Gray
-    Write-Host "  - Orchestrator: docs/ORCHESTRATOR.md" -ForegroundColor Gray
 
 }
 catch {

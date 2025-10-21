@@ -1,0 +1,34 @@
+# Root-level .gitignore for enterprise-templates monorepo
+
+# Backup files - should not be committed
+*.backup
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.code-workspace
+
+# Build artifacts (if any testing is done at root)
+bin/
+obj/
+
+# Local environment files (if created at root for testing)
+.env.local
+.env.*.local

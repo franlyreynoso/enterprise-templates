@@ -1,6 +1,6 @@
 # Backend Template Patterns Analysis
 
-This document captures the exact patterns from the backend template that the UI template must align with for perfect integration.
+This document captures the exact patterns from the backend template that the web template must align with for perfect integration.
 
 ## 🏗️ Infrastructure Architecture
 
@@ -179,9 +179,9 @@ builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration
 | `resilience`  | bool   | true       | Include circuit breakers and resilience      |
 | `logging`     | choice | "Seq"      | Logging provider (Seq/ElasticSearch/Console) |
 
-## 🎯 Integration Requirements for UI Template
+## 🎯 Integration Requirements for Web Template
 
-To achieve perfect backend integration, the UI template must:
+To achieve perfect backend integration, the web template must:
 
 ### 1. **Match Makefile Structure**
 
@@ -203,7 +203,7 @@ To achieve perfect backend integration, the UI template must:
 
 ### 4. **Port Coordination**
 
-- UI uses different API ports (3000, 3001, 3002) to avoid conflicts
+- Web uses different API ports (3000, 3001, 3002) to avoid conflicts
 - Infrastructure services share same ports as backend
 - Perfect service sharing through identical service names
 
