@@ -2,6 +2,8 @@
 
 A comprehensive collection of .NET enterprise templates with perfect backend integration orchestration.
 
+> **⚠️ Important:** Always use `.\install-all.ps1` to install templates. Do not run `dotnet new install .` from the repository root.
+
 ## 🚀 Architecture
 
 This monorepo contains:
@@ -55,6 +57,12 @@ enterprise-templates/
 # Install all templates
 .\install-all.ps1
 
+# Reinstall templates (if already installed)
+.\install-all.ps1 -Force
+
+# Uninstall all templates
+.\uninstall-all.ps1
+
 # Or install individually
 cd templates/web-template && dotnet new install .
 cd templates/backend-template && dotnet new install .
@@ -83,6 +91,41 @@ make logs                # View all logs
 make down               # Stop everything
 ```
 
+## 🔧 Troubleshooting
+
+### Template Installation Issues
+
+If you encounter errors like:
+- "The following templates use the same identity"
+- "Template package location is not supported, or doesn't exist"
+- References to non-existent paths like `ui-template`
+
+**Solution:**
+
+```bash
+# 1. Uninstall all existing templates
+.\uninstall-all.ps1
+
+# 2. Reinstall templates
+.\install-all.ps1
+```
+
+**Important:** 
+- ⚠️ **Do NOT run** `dotnet new install .` from the repository root
+- ✅ **Always use** the `install-all.ps1` script to install templates
+- ✅ Or install individual templates from their specific directories
+
+### Why This Happens
+
+The .NET template system recursively scans directories when you run `dotnet new install .` from the root. This can cause:
+- Duplicate template registrations
+- Path conflicts between case-sensitive and case-insensitive systems
+- Templates being registered from multiple locations
+
+The `install-all.ps1` script properly installs each template from its correct location and handles path normalization.
+
+For more detailed troubleshooting information, see the **[Installation Troubleshooting Guide](docs/INSTALLATION_TROUBLESHOOTING.md)**.
+
 ## 📖 Key Benefits
 
 ### 🏗️ Clean Separation
@@ -107,6 +150,7 @@ make down               # Stop everything
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
+- **[Installation Troubleshooting](docs/INSTALLATION_TROUBLESHOOTING.md)** - Detailed troubleshooting guide
 
 ---
 
