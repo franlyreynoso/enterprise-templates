@@ -1,0 +1,49 @@
+# Template ignore patterns
+bin/
+obj/
+.vs/
+*.user
+*.suo
+.vscode/
+.idea/
+
+# Runtime and build artifacts
+src/**/bin/**
+src/**/obj/**
+**/Debug/**
+**/Release/**
+**/*.dll
+**/*.pdb
+**/*.exe
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Development databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Docker volumes data
+pgdata/
+seq-data/
+
+# Environment files with secrets
+.env.production
+.env.staging
+*.env.local
+
+# IDE files
+.vs/
+.vscode/settings.json
+*.swp
+*.swo
+
+# Package management
+node_modules/
+packages/

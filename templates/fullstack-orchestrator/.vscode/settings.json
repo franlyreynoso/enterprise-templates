@@ -1,0 +1,66 @@
+{
+  "folders": [
+    {
+      "name": "🌐 Web Application",
+      "path": "./WEB_PROJECT_NAME"
+    },
+    {
+      "name": "⚙️ API Services",
+      "path": "./API_PROJECT_NAME"
+    },
+    {
+      "name": "🚀 Workspace Root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "dotnet.defaultSolution": "./WEB_PROJECT_NAME/*.sln",
+    "files.exclude": {
+      "**/bin": true,
+      "**/obj": true,
+      "**/.vs": true,
+      "**/node_modules": true,
+      "**/*.backup": true
+    },
+    "search.exclude": {
+      "**/bin": true,
+      "**/obj": true,
+      "**/node_modules": true
+    },
+    "dotnet.server.useOmnisharp": false,
+    "omnisharp.enableEditorConfigSupport": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    },
+    "csharp.semanticHighlighting.enabled": true,
+    "csharp.inlayHints.enableInlayHintsForParameters": true,
+    "csharp.inlayHints.enableInlayHintsForLiteralParameters": true,
+    "csharp.inlayHints.enableInlayHintsForIndexerParameters": true,
+    "csharp.inlayHints.enableInlayHintsForObjectCreationParameters": true,
+    "csharp.inlayHints.enableInlayHintsForOtherParameters": true,
+    "docker.showStartPage": false,
+    "makefile.configureOnOpen": false,
+    "terminal.integrated.defaultProfile.windows": "PowerShell"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "ms-dotnettools.blazorwasm-companion",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode.powershell",
+      "bradlc.vscode-tailwindcss",
+      "ms-playwright.playwright",
+      "streetsidesoftware.code-spell-checker",
+      "EditorConfig.EditorConfig",
+      "ms-vscode.vscode-json",
+      "redhat.vscode-yaml",
+      "ms-mssql.mssql",
+      "cweijan.vscode-postgresql-client2",
+      "GitHub.copilot",
+      "ms-vscode.makefile-tools"
+    ]
+  }
+}

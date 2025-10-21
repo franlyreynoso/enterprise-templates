@@ -1,0 +1,32 @@
+{
+  "runtime": "Net90",
+  "documentGenerator": {
+    "fromSwagger": {
+      "url": "BackendUrl/swagger/v1/swagger.json"
+    }
+  },
+  "codeGenerators": {
+    "csharp": {
+      "namespace": "Company.SourceName.ApiClient",
+      "className": "ApiClient",
+      "generateClientInterfaces": true,
+      "generateClientClasses": true,
+      "generateExceptionClasses": true,
+      "generateOptionalParameters": true,
+      "parameterNameGenerator": "CamelCase",
+      "propertyNameGenerator": "CamelCase",
+      "dateTimeType": "System.DateTimeOffset",
+      "generateNullableReferenceTypes": true,
+      "useBaseUrl": true,
+      "generateBaseUrlProperty": true,
+      "generateSyncMethods": false,
+      "clientClassAccessModifier": "public",
+      "typeAccessModifier": "public",
+      "generateDataAnnotations": true,
+      "generateDefaultValues": true,
+      "requiredPropertiesMustBeDefined": true,
+      "classStyle": "Poco",
+      "handleReferences": false
+    }
+  }
+}

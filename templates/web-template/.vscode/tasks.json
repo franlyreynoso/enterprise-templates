@@ -1,0 +1,208 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Start Development Environment",
+      "type": "shell",
+      "command": "make",
+      "args": ["up-dev"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "detail": "Start the development environment with Docker Compose"
+    },
+    {
+      "label": "🛑 Stop Development Environment",
+      "type": "shell",
+      "command": "make",
+      "args": ["down-dev"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Stop the development environment"
+    },
+    {
+      "label": "🌟 Start Full-Stack Environment",
+      "type": "shell",
+      "command": "make",
+      "args": ["up-integrated"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Start the integrated UI + Backend environment"
+    },
+    {
+      "label": "🔨 Build Application",
+      "type": "shell",
+      "command": "make",
+      "args": ["build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Build the .NET application"
+    },
+    {
+      "label": "🧪 Run All Tests",
+      "type": "shell",
+      "command": "make",
+      "args": ["test"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run all tests (unit, integration, E2E)"
+    },
+    {
+      "label": "🧪 Run Unit Tests Only",
+      "type": "shell",
+      "command": "make",
+      "args": ["test-unit"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run unit tests only"
+    },
+    {
+      "label": "🏃 Run Application Locally",
+      "type": "shell",
+      "command": "make",
+      "args": ["run"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run the application locally without Docker"
+    },
+    {
+      "label": "⚙️ Generate Dev Configuration",
+      "type": "shell",
+      "command": "make",
+      "args": ["config-dev"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Generate development configuration files"
+    },
+    {
+      "label": "📦 Restore Packages",
+      "type": "shell",
+      "command": "make",
+      "args": ["restore"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Restore NuGet packages"
+    },
+    {
+      "label": "📊 View Logs",
+      "type": "shell",
+      "command": "make",
+      "args": ["logs"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "View container logs"
+    },
+    {
+      "label": "❤️ Check Health",
+      "type": "shell",
+      "command": "make",
+      "args": ["health"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Check application health endpoints"
+    },
+    {
+      "label": "🧹 Clean Environment",
+      "type": "shell",
+      "command": "make",
+      "args": ["clean"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Clean up Docker containers and volumes"
+    },
+    {
+      "label": "🆘 Show Help",
+      "type": "shell",
+      "command": "make",
+      "args": ["help"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Show all available Make commands"
+    }
+  ]
+}

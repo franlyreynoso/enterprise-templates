@@ -1,0 +1,22 @@
+@using MudBlazor
+@inherits ErrorBoundaryBase
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Class="m-4">
+        Sorry—something went wrong. Try again or contact support.
+    </MudAlert>
+}
+
+@code {
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        // Log the exception to console for debugging
+        Console.WriteLine($"ErrorBoundary caught exception: {exception}");
+        return Task.CompletedTask;
+    }
+}

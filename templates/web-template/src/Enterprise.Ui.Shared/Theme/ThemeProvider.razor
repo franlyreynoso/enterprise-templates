@@ -1,0 +1,26 @@
+@using MudBlazor
+
+<MudThemeProvider Theme="_theme" IsDarkMode="@IsDark" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+@code {
+    [Parameter] public bool IsDark { get; set; } = true;
+
+    private readonly MudTheme _theme = new()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = Colors.Indigo.Default,
+            Secondary = Colors.Orange.Default
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = Colors.Indigo.Lighten1,
+            Secondary = Colors.Orange.Lighten1,
+            Background = Colors.Gray.Darken4,
+            Surface = Colors.Gray.Darken3,
+            AppbarBackground = Colors.Gray.Darken4
+        }
+    };
+}

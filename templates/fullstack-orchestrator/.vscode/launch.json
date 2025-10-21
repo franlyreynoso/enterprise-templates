@@ -1,0 +1,52 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🌐 Debug Web Application",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "🔧 Build Web Application",
+      "program": "${workspaceFolder}/WEB_PROJECT_NAME/src/WEB_PROJECT_NAME/bin/Debug/net9.0/WEB_PROJECT_NAME.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/WEB_PROJECT_NAME/src/WEB_PROJECT_NAME",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/WEB_PROJECT_NAME/src/WEB_PROJECT_NAME/Views"
+      }
+    },
+    {
+      "name": "⚙️ Debug API Services",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "🔧 Build API Services",
+      "program": "${workspaceFolder}/API_PROJECT_NAME/src/Api/bin/Debug/net9.0/Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/API_PROJECT_NAME/src/Api",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "🚀 Debug Fullstack (Web + API)",
+      "configurations": ["🌐 Debug Web Application", "⚙️ Debug API Services"],
+      "stopAll": true,
+      "preLaunchTask": "🚀 Start Fullstack Development"
+    }
+  ]
+}

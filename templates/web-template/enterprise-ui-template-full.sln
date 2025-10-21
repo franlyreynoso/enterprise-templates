@@ -1,0 +1,129 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.App", "src\Enterprise.App\Enterprise.App.csproj", "{967FE579-D857-FBAA-0264-3609459E547F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Shared", "src\Enterprise.Ui.Shared\Enterprise.Ui.Shared.csproj", "{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6}"
+EndProject
+#if (EnableApiClient)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.ApiClient", "src\Enterprise.Ui.ApiClient\Enterprise.Ui.ApiClient.csproj", "{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91}"
+EndProject
+#endif
+#if (EnableAuth)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Auth", "src\Enterprise.Ui.Auth\Enterprise.Ui.Auth.csproj", "{8C29EF75-0E7C-CE34-00DB-5C015E49177D}"
+EndProject
+#endif
+#if (EnableFeatureFlags)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.FeatureFlags", "src\Enterprise.Ui.FeatureFlags\Enterprise.Ui.FeatureFlags.csproj", "{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48}"
+EndProject
+#endif
+#if (EnableHttpResilience)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Http", "src\Enterprise.Ui.Http\Enterprise.Ui.Http.csproj", "{59353671-23E6-24EF-5774-2C2E8D6298B8}"
+EndProject
+#endif
+#if (EnableObservability)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Observability", "src\Enterprise.Ui.Observability\Enterprise.Ui.Observability.csproj", "{0683E1ED-CE71-51A6-1CD1-587F680C2A23}"
+EndProject
+#endif
+#if (EnableSecurity)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Security", "src\Enterprise.Ui.Security\Enterprise.Ui.Security.csproj", "{C135FA46-7836-FBFC-A53B-697BDCA03765}"
+EndProject
+#endif
+#if (EnableTesting)
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enterprise.Ui.Tests", "tests\Enterprise.Ui.Tests\Enterprise.Ui.Tests.csproj", "{8AA59092-2F7C-F998-3805-62ADEEBCEB36}"
+EndProject
+#endif
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{967FE579-D857-FBAA-0264-3609459E547F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967FE579-D857-FBAA-0264-3609459E547F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967FE579-D857-FBAA-0264-3609459E547F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967FE579-D857-FBAA-0264-3609459E547F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6}.Release|Any CPU.Build.0 = Release|Any CPU
+#if (EnableApiClient)
+		{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableAuth)
+		{8C29EF75-0E7C-CE34-00DB-5C015E49177D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C29EF75-0E7C-CE34-00DB-5C015E49177D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C29EF75-0E7C-CE34-00DB-5C015E49177D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C29EF75-0E7C-CE34-00DB-5C015E49177D}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableFeatureFlags)
+		{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableHttpResilience)
+		{59353671-23E6-24EF-5774-2C2E8D6298B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59353671-23E6-24EF-5774-2C2E8D6298B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59353671-23E6-24EF-5774-2C2E8D6298B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59353671-23E6-24EF-5774-2C2E8D6298B8}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableObservability)
+		{0683E1ED-CE71-51A6-1CD1-587F680C2A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0683E1ED-CE71-51A6-1CD1-587F680C2A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0683E1ED-CE71-51A6-1CD1-587F680C2A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0683E1ED-CE71-51A6-1CD1-587F680C2A23}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableSecurity)
+		{C135FA46-7836-FBFC-A53B-697BDCA03765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C135FA46-7836-FBFC-A53B-697BDCA03765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C135FA46-7836-FBFC-A53B-697BDCA03765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C135FA46-7836-FBFC-A53B-697BDCA03765}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+#if (EnableTesting)
+		{8AA59092-2F7C-F998-3805-62ADEEBCEB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA59092-2F7C-F998-3805-62ADEEBCEB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA59092-2F7C-F998-3805-62ADEEBCEB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA59092-2F7C-F998-3805-62ADEEBCEB36}.Release|Any CPU.Build.0 = Release|Any CPU
+#endif
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{967FE579-D857-FBAA-0264-3609459E547F} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{DD83B8D3-2BB9-2164-C7F2-570593ECA1B6} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#if (EnableApiClient)
+		{F7ACE6F3-74F6-D916-304C-B97F2A7D4D91} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableAuth)
+		{8C29EF75-0E7C-CE34-00DB-5C015E49177D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableFeatureFlags)
+		{C472BB6A-2B0E-8C43-4ACB-E3A4A3CE1F48} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableHttpResilience)
+		{59353671-23E6-24EF-5774-2C2E8D6298B8} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableObservability)
+		{0683E1ED-CE71-51A6-1CD1-587F680C2A23} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableSecurity)
+		{C135FA46-7836-FBFC-A53B-697BDCA03765} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+#endif
+#if (EnableTesting)
+		{8AA59092-2F7C-F998-3805-62ADEEBCEB36} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+#endif
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D15C6318-4508-4D0E-AD29-875872C9CADE}
+	EndGlobalSection
+EndGlobal

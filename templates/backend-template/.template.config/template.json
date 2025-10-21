@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Enterprise Development Team",
+  "classifications": ["Web", "CleanArchitecture", "CQRS", "Enterprise"],
+  "name": "Enterprise Clean Architecture Template",
+  "description": "A comprehensive .NET 8 enterprise solution template implementing Clean Architecture with CQRS, featuring production-ready cross-cutting concerns including health monitoring, distributed caching, resilience patterns, centralized logging, security, and message bus integration. Supports both Azure and on-premises deployments with configurable enterprise features.",
+  "identity": "Company.Enterprise.CleanArchitecture",
+  "shortName": "enterprise-clean",
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "sourceName": "EnterpriseTemplate",
+  "preferNameDirectory": true,
+  "symbols": {
+    "cloud": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Cloud deployment target - configures infrastructure adapters and services for your deployment environment",
+      "choices": [
+        {
+          "choice": "Azure",
+          "displayName": "Azure (Azure Service Bus, Azure SQL, Key Vault)"
+        },
+        {
+          "choice": "OnPrem",
+          "displayName": "OnPrem (RabbitMQ, PostgreSQL, local secrets)"
+        }
+      ],
+      "defaultValue": "OnPrem"
+    },
+    "db": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Database provider for Entity Framework Core with health checks and connection resilience",
+      "choices": [
+        {
+          "choice": "SqlServer",
+          "displayName": "SQL Server (Azure SQL compatible)"
+        },
+        {
+          "choice": "Postgres",
+          "displayName": "PostgreSQL (recommended for containers)"
+        }
+      ],
+      "defaultValue": "Postgres"
+    },
+    "bus": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Message bus transport for CQRS commands, events, and background processing with MassTransit",
+      "choices": [
+        {
+          "choice": "AzureServiceBus",
+          "displayName": "Azure Service Bus (cloud-native, serverless)"
+        },
+        {
+          "choice": "RabbitMQ",
+          "displayName": "RabbitMQ (self-hosted, Docker ready)"
+        },
+        {
+          "choice": "None",
+          "displayName": "No messaging (removes MassTransit integration)"
+        }
+      ],
+      "defaultValue": "RabbitMQ"
+    },
+    "multitenant": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable multi-tenant architecture scaffolding with tenant isolation patterns and context resolution",
+      "defaultValue": "false"
+    },
+    "caching": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable Redis distributed caching with cache-aside pattern, health checks, and demonstration endpoints",
+      "defaultValue": "true"
+    },
+    "monitoring": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable comprehensive health checks for database, message bus, Redis, and external services with detailed JSON responses",
+      "defaultValue": "true"
+    },
+    "resilience": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable Polly-based circuit breaker patterns, retry policies, and timeout handling for external service calls",
+      "defaultValue": "true"
+    },
+    "logging": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Centralized structured logging solution with Serilog for log aggregation, analysis, and monitoring",
+      "choices": [
+        {
+          "choice": "Seq",
+          "displayName": "Seq (Docker-based, ideal for development and small teams)"
+        },
+        {
+          "choice": "Console",
+          "displayName": "Console only (minimal logging, no centralization)"
+        }
+      ],
+      "defaultValue": "Seq"
+    }
+  },
+  "sources": [
+    {
+      "exclude": [
+        ".git/**",
+        ".vs/**",
+        "**/bin/**",
+        "**/obj/**",
+        "**/*.user",
+        "**/*.suo",
+        "**/node_modules/**",
+        ".template.config/**"
+      ],
+      "rename": {
+        "TEMPLATE_README.md": "README.md"
+      },
+      "modifiers": [
+        {
+          "condition": "(bus == \"None\")",
+          "exclude": ["**/Messaging/**", "**/BusRegistration.cs"]
+        },
+        {
+          "condition": "(!caching)",
+          "exclude": ["**/Caching/**", "**/Controllers/CacheController.cs"]
+        },
+        {
+          "condition": "(!monitoring)",
+          "exclude": ["**/HealthChecks/**"]
+        },
+        {
+          "condition": "(!resilience)",
+          "exclude": ["**/Resilience/**"]
+        },
+        {
+          "condition": "(logging == \"Console\")",
+          "exclude": ["**/seq/**"]
+        }
+      ]
+    }
+  ]
+}

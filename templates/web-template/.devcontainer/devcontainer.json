@@ -1,0 +1,139 @@
+{
+  "name": "Enterprise Blazor Template",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/powershell:1": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.blazorwasm-companion",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.powershell",
+        "bradlc.vscode-tailwindcss",
+        "ms-playwright.playwright",
+        "streetsidesoftware.code-spell-checker",
+        "EditorConfig.EditorConfig",
+        "ms-vscode.vscode-json"
+      ],
+      "settings": {
+        "dotnet.defaultSolution": "enterprise-ui-template-full.sln",
+        "files.exclude": {
+          "**/bin": true,
+          "**/obj": true
+        },
+        "omnisharp.enableEditorConfigSupport": true,
+        "omnisharp.enableRoslynAnalyzers": true
+      },
+      "tasks": [
+        {
+          "label": "🚀 Start Development Environment",
+          "type": "shell",
+          "command": "make up-dev",
+          "group": "build",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared",
+            "showReuseMessage": true,
+            "clear": false
+          },
+          "problemMatcher": []
+        },
+        {
+          "label": "🛑 Stop Development Environment",
+          "type": "shell",
+          "command": "make down-dev",
+          "group": "build",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          }
+        },
+        {
+          "label": "🔨 Build Application",
+          "type": "shell",
+          "command": "make build",
+          "group": {
+            "kind": "build",
+            "isDefault": true
+          },
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          },
+          "problemMatcher": "$msCompile"
+        },
+        {
+          "label": "🧪 Run All Tests",
+          "type": "shell",
+          "command": "make test",
+          "group": {
+            "kind": "test",
+            "isDefault": true
+          },
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          }
+        },
+        {
+          "label": "⚙️ Generate Dev Configuration",
+          "type": "shell",
+          "command": "make config-dev",
+          "group": "build",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+          }
+        }
+      ]
+    }
+  },
+  "forwardPorts": [7000, 7001, 8001, 16686],
+  "portsAttributes": {
+    "7000": {
+      "label": "Blazor UI (HTTPS)",
+      "protocol": "https"
+    },
+    "7001": {
+      "label": "Blazor UI (HTTP)",
+      "protocol": "http"
+    },
+    "8001": {
+      "label": "Backend API",
+      "protocol": "https"
+    },
+    "16686": {
+      "label": "Jaeger UI",
+      "protocol": "http"
+    }
+  },
+  "postCreateCommand": "make setup",
+  "postStartCommand": "echo '🎉 Enterprise Blazor Template Dev Container Ready! Run \\\"make help\\\" to see available commands.'",
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=blazor-template-nuget,target=/home/vscode/.nuget,type=volume"
+  ],
+  "runArgs": ["--init"]
+}

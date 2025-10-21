@@ -1,0 +1,130 @@
+version: "3.8"
+
+services:
+  workspace:
+    image: mcr.microsoft.com/devcontainers/dotnet:1-9.0
+    volumes:
+      - ../..:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker-host.sock
+    command: sleep infinity
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker-host.sock
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - enterprise-dev
+    depends_on:
+      - postgres-dev
+      - seq-dev
+      - jaeger-dev
+
+  # Development PostgreSQL Database
+  postgres-dev:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: enterprise_dev
+      POSTGRES_USER: enterprise
+      POSTGRES_PASSWORD: Dev123!@#
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - enterprise-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U enterprise -d enterprise_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Development Redis Cache
+  redis-dev:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - enterprise-dev
+    command: redis-server --appendonly yes
+
+  # Development RabbitMQ
+  rabbitmq-dev:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: enterprise
+      RABBITMQ_DEFAULT_PASS: Dev123!@#
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_dev_data:/var/lib/rabbitmq
+    networks:
+      - enterprise-dev
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Development Structured Logging (Seq)
+  seq-dev:
+    image: datalust/seq:2023.4
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINUSERNAME: admin
+      SEQ_FIRSTRUN_ADMINPASSWORD: Dev123!@#
+    ports:
+      - "5341:80"
+    volumes:
+      - seq_dev_data:/data
+    networks:
+      - enterprise-dev
+
+  # Development Distributed Tracing (Jaeger)
+  jaeger-dev:
+    image: jaegertracing/all-in-one:1.51
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP HTTP receiver
+      - "14268:14268" # Jaeger collector HTTP
+    networks:
+      - enterprise-dev
+
+  # Development pgAdmin (Optional)
+  pgadmin-dev:
+    image: dpage/pgadmin4:8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@enterprise.dev
+      PGADMIN_DEFAULT_PASSWORD: Dev123!@#
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_dev_data:/var/lib/pgadmin
+    networks:
+      - enterprise-dev
+    depends_on:
+      - postgres-dev
+    profiles:
+      - extras
+
+volumes:
+  postgres_dev_data:
+    name: enterprise_fullstack_postgres_dev
+  redis_dev_data:
+    name: enterprise_fullstack_redis_dev
+  rabbitmq_dev_data:
+    name: enterprise_fullstack_rabbitmq_dev
+  seq_dev_data:
+    name: enterprise_fullstack_seq_dev
+  pgadmin_dev_data:
+    name: enterprise_fullstack_pgadmin_dev
+
+networks:
+  enterprise-dev:
+    driver: bridge
+    name: enterprise_fullstack_dev

@@ -1,0 +1,21 @@
+<!-- Directory.Build.props - Imported by all projects in the solution -->
+<Project>
+  <!-- Enable central package version management for all projects -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Common properties for all projects -->
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningsNotAsErrors />
+  </PropertyGroup>
+
+  <!-- Default package properties -->
+  <ItemGroup>
+    <PackageReference Update="@(PackageReference)" PrivateAssets="" />
+  </ItemGroup>
+</Project>

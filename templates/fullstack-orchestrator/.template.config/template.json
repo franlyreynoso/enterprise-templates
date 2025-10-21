@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Enterprise Template Team",
+  "classifications": ["Web", "API", "Blazor", "Enterprise", "Fullstack"],
+  "identity": "Enterprise.Fullstack.Orchestrator",
+  "name": "Enterprise Fullstack Orchestrator",
+  "shortName": "enterprise-fullstack",
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "description": "Enterprise fullstack solution orchestrator that coordinates Blazor UI and Clean Architecture API templates",
+  "sourceName": "EnterpriseFullstack",
+  "preferNameDirectory": true,
+  "symbols": {
+    "webProjectName": {
+      "type": "parameter",
+      "description": "Name for the Web project (Blazor Server)",
+      "datatype": "string",
+      "defaultValue": "Web",
+      "replaces": "WEB_PROJECT_NAME"
+    },
+    "apiProjectName": {
+      "type": "parameter",
+      "description": "Name for the API project (Clean Architecture)",
+      "datatype": "string",
+      "defaultValue": "API",
+      "replaces": "API_PROJECT_NAME"
+    },
+    "cloud": {
+      "type": "parameter",
+      "description": "Target cloud platform",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "OnPrem",
+          "description": "On-premises infrastructure"
+        },
+        {
+          "choice": "Azure",
+          "description": "Azure cloud services"
+        }
+      ],
+      "defaultValue": "OnPrem",
+      "replaces": "CLOUD_PROVIDER"
+    },
+    "database": {
+      "type": "parameter",
+      "description": "Database provider",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "Postgres",
+          "description": "PostgreSQL database"
+        },
+        {
+          "choice": "SqlServer",
+          "description": "SQL Server database"
+        }
+      ],
+      "defaultValue": "Postgres",
+      "replaces": "DATABASE_PROVIDER"
+    },
+    "messageBus": {
+      "type": "parameter",
+      "description": "Message bus implementation",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "RabbitMQ",
+          "description": "RabbitMQ message broker"
+        },
+        {
+          "choice": "AzureServiceBus",
+          "description": "Azure Service Bus"
+        },
+        {
+          "choice": "None",
+          "description": "No message bus"
+        }
+      ],
+      "defaultValue": "RabbitMQ",
+      "replaces": "MESSAGE_BUS"
+    },
+    "enableCaching": {
+      "type": "parameter",
+      "description": "Enable Redis distributed caching",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "enableObservability": {
+      "type": "parameter",
+      "description": "Enable OpenTelemetry observability",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "enableAuth": {
+      "type": "parameter",
+      "description": "Enable authentication/authorization",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "loggingProvider": {
+      "type": "parameter",
+      "description": "Logging provider",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "Seq",
+          "description": "Seq structured logging"
+        },
+        {
+          "choice": "Console",
+          "description": "Console logging only"
+        }
+      ],
+      "defaultValue": "Seq",
+      "replaces": "LOGGING_PROVIDER"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/*.user",
+            "**/.vs/**",
+            "**/node_modules/**"
+          ]
+        }
+      ]
+    }
+  ]
+}

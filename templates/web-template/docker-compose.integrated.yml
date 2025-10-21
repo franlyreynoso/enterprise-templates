@@ -1,0 +1,137 @@
+# Docker Compose for Full-Stack Development - UI + Backend Integration
+version: "3.8"
+
+services:
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    ports:
+      - "7000:8080"
+      - "7001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - Logging__LogLevel__Default=Debug
+      - Backend__ApiUrl=https://api:8081
+      - Auth__Authority=https://api:8081
+      - Auth__ClientSecret=${AUTH_CLIENT_SECRET:-dev-secret}
+      - Observability__OtlpEndpoint=http://jaeger:4317
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ./src:/src
+    depends_on:
+      - api
+      - db
+    networks:
+      - enterprise-integrated
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  api:
+    image: ${BACKEND_IMAGE:-enterprise-backend:latest}
+    ports:
+      - "8001:8080"
+      - "8002:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING:-Host=db;Port=5432;Database=enterpriseui_dev;Username=app;Password=app}
+      - Auth__Issuer=https://api:8081
+      - Observability__OtlpEndpoint=http://jaeger:4317
+    depends_on:
+      - db
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    networks:
+      - enterprise-integrated
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database (matches backend template)
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-enterpriseui_dev}
+      - POSTGRES_USER=${POSTGRES_USER:-app}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-app}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - enterprise-integrated
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-enterpriseui_dev}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Observability stack (matches backend pattern)
+
+  # Seq - Centralized Logging (matches backend)
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "${SEQ_PORT:-5341}:80"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=${SEQ_API_KEY:-dev-seq-key}
+    volumes:
+      - seq_data:/data
+    networks:
+      - enterprise-integrated
+
+  # Jaeger - Distributed Tracing (matches backend)
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - LOG_LEVEL=debug
+    networks:
+      - enterprise-integrated
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - enterprise-integrated
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - enterprise-integrated
+
+volumes:
+  postgres_data:
+  seq_data:
+  grafana_data:
+
+networks:
+  enterprise-integrated:
+    driver: bridge

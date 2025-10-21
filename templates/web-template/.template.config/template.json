@@ -1,0 +1,378 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "EnterpriseTemplate Team",
+  "classifications": ["Enterprise", "Blazor", "UI"],
+  "identity": "Enterprise.Ui.ConfigurableTemplate",
+  "name": "Enterprise Blazor UI Template",
+  "shortName": "blazor-enterprise",
+  "sourceName": "Enterprise.App",
+  "preferNameDirectory": true,
+  "description": "A configurable enterprise Blazor Server template with selectable features",
+  "symbols": {
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
+    "IncludeAuth": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include OIDC authentication and authorization features",
+      "defaultValue": "true"
+    },
+    "IncludeHttpResilience": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include HTTP client with Polly resilience patterns",
+      "defaultValue": "true"
+    },
+    "IncludeApiClient": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include NSwag API client generation",
+      "defaultValue": "true"
+    },
+    "IncludeObservability": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include OpenTelemetry observability (tracing, metrics, logging)",
+      "defaultValue": "true"
+    },
+    "IncludeFeatureFlags": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include feature flag management",
+      "defaultValue": "true"
+    },
+    "IncludeSecurity": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include security headers and CSP protection",
+      "defaultValue": "true"
+    },
+    "IncludeI18n": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include internationalization (localization) support",
+      "defaultValue": "false"
+    },
+    "IncludeTesting": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include bUnit and Playwright testing infrastructure",
+      "defaultValue": "true"
+    },
+    "IncludeCICD": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include GitHub Actions CI/CD pipeline",
+      "defaultValue": "true"
+    },
+    "IncludeDocker": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include Docker containerization support",
+      "defaultValue": "false"
+    },
+    "BackendIntegration": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable backend API integration features",
+      "defaultValue": "false"
+    },
+    "BackendUrl": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "Backend API base URL for integration",
+      "defaultValue": "https://localhost:7001"
+    },
+    "AuthProvider": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Authentication provider for backend coordination",
+      "defaultValue": "JWT",
+      "choices": [
+        {
+          "choice": "JWT",
+          "description": "JWT Bearer token authentication"
+        },
+        {
+          "choice": "OIDC",
+          "description": "OpenID Connect with Identity Server"
+        },
+        {
+          "choice": "AzureAD",
+          "description": "Azure Active Directory integration"
+        }
+      ]
+    },
+    "ApiClientGeneration": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "API client generation strategy",
+      "defaultValue": "NSwag",
+      "choices": [
+        {
+          "choice": "NSwag",
+          "description": "Generate API clients using NSwag from OpenAPI"
+        },
+        {
+          "choice": "HttpClient",
+          "description": "Use typed HttpClient with manual implementations"
+        },
+        {
+          "choice": "RestEase",
+          "description": "Use RestEase for declarative API clients"
+        }
+      ]
+    },
+    "IncludeDevEnvironment": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Include Docker Compose for integrated development environment",
+      "defaultValue": "false"
+    },
+    "TemplatePreset": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Pre-configured feature combinations for common scenarios",
+      "defaultValue": "Full",
+      "choices": [
+        {
+          "choice": "Full",
+          "description": "All enterprise features enabled (recommended for production)"
+        },
+        {
+          "choice": "Minimal",
+          "description": "Basic Blazor app with MudBlazor UI only"
+        },
+        {
+          "choice": "Standard",
+          "description": "Common enterprise features without advanced observability"
+        },
+        {
+          "choice": "Microservice",
+          "description": "Features optimized for microservice architecture"
+        },
+        {
+          "choice": "Custom",
+          "description": "Manually select individual features"
+        },
+        {
+          "choice": "FullStack",
+          "description": "Full enterprise UI with backend integration"
+        },
+        {
+          "choice": "APIIntegrated",
+          "description": "Standard features with enhanced API client integration"
+        }
+      ]
+    },
+    "UseMinimal": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"Minimal\")"
+    },
+    "UseStandard": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"Standard\")"
+    },
+    "UseMicroservice": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"Microservice\")"
+    },
+    "UseFull": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"Full\")"
+    },
+    "UseCustom": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"Custom\")"
+    },
+    "UseFullStack": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"FullStack\")"
+    },
+    "UseAPIIntegrated": {
+      "type": "computed",
+      "value": "(TemplatePreset == \"APIIntegrated\")"
+    },
+    "EnableAuth": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeAuth) || UseStandard || UseFull || UseMicroservice || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableHttpResilience": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeHttpResilience) || UseStandard || UseFull || UseMicroservice || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableApiClient": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeApiClient) || UseStandard || UseFull || UseMicroservice || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableObservability": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeObservability) || UseFull || UseMicroservice || UseFullStack"
+    },
+    "EnableFeatureFlags": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeFeatureFlags) || UseStandard || UseFull || UseMicroservice || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableSecurity": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeSecurity) || UseStandard || UseFull || UseMicroservice || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableI18n": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeI18n) || UseFull || UseFullStack"
+    },
+    "EnableTesting": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeTesting) || UseStandard || UseFull || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableCICD": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeCICD) || UseStandard || UseFull || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableDocker": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeDocker) || UseFull || UseMicroservice || UseFullStack"
+    },
+    "EnableBackendIntegration": {
+      "type": "computed",
+      "value": "(UseCustom && BackendIntegration) || UseFullStack || UseAPIIntegrated"
+    },
+    "EnableDevEnvironment": {
+      "type": "computed",
+      "value": "(UseCustom && IncludeDevEnvironment) || UseFullStack"
+    },
+    "UseJWTAuth": {
+      "type": "computed",
+      "value": "(AuthProvider == \"JWT\")"
+    },
+    "UseOIDCAuth": {
+      "type": "computed",
+      "value": "(AuthProvider == \"OIDC\")"
+    },
+    "UseAzureADAuth": {
+      "type": "computed",
+      "value": "(AuthProvider == \"AzureAD\")"
+    },
+    "UseNSwagClient": {
+      "type": "computed",
+      "value": "(ApiClientGeneration == \"NSwag\")"
+    },
+    "UseHttpClient": {
+      "type": "computed",
+      "value": "(ApiClientGeneration == \"HttpClient\")"
+    },
+    "UseRestEase": {
+      "type": "computed",
+      "value": "(ApiClientGeneration == \"RestEase\")"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(!EnableAuth)",
+          "exclude": ["src/Enterprise.Ui.Auth/**/*"]
+        },
+        {
+          "condition": "(!EnableHttpResilience)",
+          "exclude": ["src/Enterprise.Ui.Http/**/*"]
+        },
+        {
+          "condition": "(!EnableApiClient)",
+          "exclude": ["src/Enterprise.Ui.ApiClient/**/*"]
+        },
+        {
+          "condition": "(!EnableObservability)",
+          "exclude": ["src/Enterprise.Ui.Observability/**/*"]
+        },
+        {
+          "condition": "(!EnableFeatureFlags)",
+          "exclude": ["src/Enterprise.Ui.FeatureFlags/**/*"]
+        },
+        {
+          "condition": "(!EnableSecurity)",
+          "exclude": ["src/Enterprise.Ui.Security/**/*"]
+        },
+        {
+          "condition": "(!EnableTesting)",
+          "exclude": ["tests/**/*"]
+        },
+        {
+          "condition": "(!EnableCICD)",
+          "exclude": [".github/**/*"]
+        },
+        {
+          "condition": "(!EnableDocker)",
+          "exclude": ["Dockerfile", "docker-compose*.yml", ".dockerignore"]
+        },
+        {
+          "condition": "(!EnableI18n)",
+          "exclude": ["src/Enterprise.App/Resources/**/*"]
+        },
+        {
+          "condition": "(!EnableAuth)",
+          "exclude": ["src/Enterprise.App/Config/auth*.json"]
+        },
+        {
+          "condition": "(!EnableHttpResilience)",
+          "exclude": ["src/Enterprise.App/Config/http*.json"]
+        },
+        {
+          "condition": "(!EnableFeatureFlags)",
+          "exclude": ["src/Enterprise.App/Config/features*.json"]
+        },
+        {
+          "condition": "(!EnableObservability)",
+          "exclude": ["src/Enterprise.App/Config/observability*.json"]
+        },
+        {
+          "condition": "(!EnableI18n)",
+          "exclude": ["src/Enterprise.App/Config/i18n*.json"]
+        },
+        {
+          "condition": "(!EnableSecurity)",
+          "exclude": ["src/Enterprise.App/Config/security*.json"]
+        },
+        {
+          "condition": "(!EnableBackendIntegration)",
+          "exclude": ["src/Enterprise.App/Config/backend*.json"]
+        },
+        {
+          "condition": "(!EnableDevEnvironment)",
+          "exclude": ["docker-compose.dev.yml", "docker-compose.integrated.yml"]
+        }
+      ],
+      "rename": {
+        "README.template.md": "README.md",
+        "enterprise-ui-template-full.sln": "Company.SourceName.sln"
+      },
+      "exclude": ["README.md"]
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "path": "Company.SourceName.sln"
+    }
+  ],
+  "postActions": [
+    {
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ],
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

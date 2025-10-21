@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NSwag.Annotations" />
+    <PackageReference Include="NSwag.MSBuild" PrivateAssets="All" />
+  </ItemGroup>
+  <!-- TODO: Re-enable when API endpoint is available -->
+  <!--
+  <Target Name="GenerateApiClient" AfterTargets="Build">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet nswag run $(MSBuildProjectDirectory)\nswag.json /variables:Configuration=$(Configuration)" />
+  </Target>
+  -->
+</Project>

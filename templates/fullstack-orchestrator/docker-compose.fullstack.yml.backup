@@ -1,0 +1,215 @@
+# Enterprise Fullstack Orchestrator - Docker Compose
+# Coordinates shared infrastructure for UI and API templates
+
+services:
+  # === Shared Database ===
+  postgres:
+    image: postgres:16
+    container_name: enterprisefullstack-postgres-${ENV:-dev}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-enterprisefullstack_dev}
+      POSTGRES_USER: ${DB_USER:-app}
+      POSTGRES_PASSWORD: ${DB_PASS:-app}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data_${ENV:-dev}:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-app} -d ${POSTGRES_DB:-enterprisefullstack_dev}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # === Shared Redis Cache ===
+  redis:
+    image: redis:7-alpine
+    container_name: enterprisefullstack-redis-${ENV:-dev}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data_${ENV:-dev}:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # === Shared Message Queue ===
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: enterprisefullstack-rabbitmq-${ENV:-dev}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-app}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-app}
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq_data_${ENV:-dev}:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # === Shared Observability Stack ===
+
+  # OpenTelemetry Collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: enterprisefullstack-otel-${ENV:-dev}
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "${OTEL_GRPC_PORT:-4317}:4317" # OTLP gRPC receiver
+      - "${OTEL_HTTP_PORT:-4318}:4318" # OTLP HTTP receiver
+    depends_on:
+      - jaeger
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # Jaeger Tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: enterprisefullstack-jaeger-${ENV:-dev}
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "${JAEGER_UI_PORT:-16686}:16686"
+      - "${JAEGER_OTLP_GRPC_PORT:-14317}:14317"
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # Seq Structured Logging
+  seq:
+    image: datalust/seq:latest
+    container_name: enterprisefullstack-seq-${ENV:-dev}
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "${SEQ_PORT:-5341}:80"
+    volumes:
+      - seq_data_${ENV:-dev}:/data
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+      - prod
+
+  # === Development Tools ===
+
+  # Database Management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: enterprisefullstack-pgadmin-${ENV:-dev}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data_${ENV:-dev}:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+      - staging
+
+  # Email Testing (Development only)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: enterprisefullstack-mailhog-${ENV:-dev}
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_UI_PORT:-8025}:8025"
+    profiles:
+      - fullstack
+      - ui-infra
+      - backend-infra
+      - dev
+
+# === Shared Volumes ===
+volumes:
+  postgres_data_dev:
+    name: enterprisefullstack-postgres-dev
+  postgres_data_staging:
+    name: enterprisefullstack-postgres-staging
+  postgres_data_prod:
+    name: enterprisefullstack-postgres-prod
+
+  redis_data_dev:
+    name: enterprisefullstack-redis-dev
+  redis_data_staging:
+    name: enterprisefullstack-redis-staging
+  redis_data_prod:
+    name: enterprisefullstack-redis-prod
+
+  rabbitmq_data_dev:
+    name: enterprisefullstack-rabbitmq-dev
+  rabbitmq_data_staging:
+    name: enterprisefullstack-rabbitmq-staging
+  rabbitmq_data_prod:
+    name: enterprisefullstack-rabbitmq-prod
+
+  seq_data_dev:
+    name: enterprisefullstack-seq-dev
+  seq_data_staging:
+    name: enterprisefullstack-seq-staging
+  seq_data_prod:
+    name: enterprisefullstack-seq-prod
+
+  pgadmin_data_dev:
+    name: enterprisefullstack-pgadmin-dev
+  pgadmin_data_staging:
+    name: enterprisefullstack-pgadmin-staging
+  pgadmin_data_prod:
+    name: enterprisefullstack-pgadmin-prod
+
+# === Networks ===
+networks:
+  default:
+    name: enterprisefullstack-network-${ENV:-dev}
+    driver: bridge

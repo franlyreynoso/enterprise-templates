@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Playwright" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src/Enterprise.Ui.Shared/Enterprise.Ui.Shared.csproj" />
+    <!--#if (EnableFeatureFlags)-->
+    <ProjectReference Include="..\..\src/Enterprise.Ui.FeatureFlags/Enterprise.Ui.FeatureFlags.csproj" />
+    <!--#endif-->
+    <!--#if (EnableAuth)-->
+    <ProjectReference Include="..\..\src/Enterprise.Ui.Auth/Enterprise.Ui.Auth.csproj" />
+    <!--#endif-->
+  </ItemGroup>
+</Project>

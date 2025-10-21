@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\\Application\\EnterpriseTemplate.Application.csproj" />
+    <ProjectReference Include="..\\Infrastructure\\EnterpriseTemplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\\Domain\\EnterpriseTemplate.Domain.csproj" />
+  </ItemGroup>
+</Project>

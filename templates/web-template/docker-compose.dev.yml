@@ -1,0 +1,138 @@
+# Docker Compose for Development Environment - UI Only (matches backend pattern)
+version: "3.8"
+
+services:
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    ports:
+      - "7000:8080"
+      - "7001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - Logging__LogLevel__Default=Debug
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - Auth__ClientSecret=${AUTH_CLIENT_SECRET}
+      - Auth__Authority=${AUTH_AUTHORITY}
+      - Backend__ApiUrl=${BACKEND_API_URL}
+      - Observability__OtlpEndpoint=${OTLP_ENDPOINT}
+      - Serilog__WriteTo__1__Args__serverUrl=${SEQ_URL}
+      - Serilog__WriteTo__1__Args__apiKey=${SEQ_API_KEY}
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ./src:/src
+    networks:
+      - enterprise-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database (matches backend)
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - enterprise-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Observability Stack (matches backend pattern)
+
+  # Seq - Centralized Logging (like backend)
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "${SEQ_PORT:-5341}:80"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=${SEQ_API_KEY}
+    volumes:
+      - seq_data:/data
+    networks:
+      - enterprise-network
+    profiles:
+      - observability
+
+  # Jaeger - Distributed Tracing (matches backend)
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    ports:
+      - "${JAEGER_UI_PORT:-16686}:16686"
+      - "4317:4317"
+      - "4318:4318"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - LOG_LEVEL=debug
+    networks:
+      - enterprise-network
+    profiles:
+      - observability
+
+  # pgAdmin - Database Management (like backend)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@example.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-admin123}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - enterprise-network
+    profiles:
+      - observability
+
+  # Prometheus - Metrics Collection
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - enterprise-network
+    profiles:
+      - observability
+
+  # Grafana - Metrics Visualization
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin123}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - enterprise-network
+    profiles:
+      - observability
+
+volumes:
+  postgres_data:
+  seq_data:
+  pgadmin_data:
+  grafana_data:
+
+networks:
+  enterprise-network:
+    driver: bridge

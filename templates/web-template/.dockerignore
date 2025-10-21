@@ -1,0 +1,55 @@
+# Docker ignore patterns for efficient builds
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/.idea
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/azds.yaml
+**/bin
+**/charts
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+LICENSE
+README.md
+
+# Documentation
+docs/
+
+# Test artifacts
+tests/
+coverage/
+TestResults/
+
+# Build artifacts
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+**/*.cache
+**/.vs/
+
+# Node.js (if used for frontend tooling)
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+
+# IDE files
+**/.vscode/
+**/.idea/
+
+# OS files
+**/.DS_Store
+**/Thumbs.db
