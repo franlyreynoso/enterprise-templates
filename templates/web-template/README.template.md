@@ -1,6 +1,16 @@
-# Company.SourceName
+# Enterprise.App
 
 A modern enterprise Blazor Server application built with the Enterprise UI Template.
+
+## 🏗️ Project Structure
+
+This application is generated from the Enterprise Blazor UI Template with a consistent naming pattern:
+
+- **Solution**: `Enterprise.App.sln` - Named after your project
+- **Main Project**: `src/Enterprise.App/` - Your Blazor Server application
+- **Library Projects**: `src/Enterprise.Ui.*` - Reusable feature libraries
+
+When you create a project with `dotnet new blazor-enterprise -n YourName`, all occurrences of "Enterprise.App" will be replaced with "YourName".
 
 ## 🚀 Getting Started
 

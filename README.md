@@ -151,6 +151,7 @@ For more detailed troubleshooting information, see the **[Installation Troublesh
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
 - **[Installation Troubleshooting](docs/INSTALLATION_TROUBLESHOOTING.md)** - Detailed troubleshooting guide
+- **[Naming Conventions](docs/NAMING_CONVENTIONS.md)** - Project and solution naming rules
 
 ---
 
