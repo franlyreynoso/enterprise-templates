@@ -2,33 +2,34 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Welcome to Enterprise.App</MudText>
-<MudText Class="mb-8">This is your enterprise Blazor application.</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudText Typo="Typo.h3" GutterBottom="true">Welcome to Enterprise.App</MudText>
+    <MudText Typo="Typo.body1" Class="mb-8">This is your enterprise Blazor application.</MudText>
 
-<MudAlert Severity="Severity.Info" Class="mb-4">
-    Your application has been configured with the following features:
-</MudAlert>
-
-<MudList>
+    <MudPaper Class="pa-4">
+        <MudText Typo="Typo.h6" GutterBottom="true">Configured Features:</MudText>
+        <ul>
 <!--#if (EnableAuth)-->
-    <MudListItem Icon="@Icons.Material.Filled.Security">Authentication & Authorization</MudListItem>
+            <li>Authentication & Authorization</li>
 <!--#endif-->
 <!--#if (EnableHttpResilience)-->
-    <MudListItem Icon="@Icons.Material.Filled.Http">HTTP Client with Resilience</MudListItem>
+            <li>HTTP Client with Resilience</li>
 <!--#endif-->
 <!--#if (EnableApiClient)-->
-    <MudListItem Icon="@Icons.Material.Filled.Api">API Client Generation</MudListItem>
+            <li>API Client Generation</li>
 <!--#endif-->
 <!--#if (EnableObservability)-->
-    <MudListItem Icon="@Icons.Material.Filled.Visibility">OpenTelemetry Observability</MudListItem>
+            <li>OpenTelemetry Observability</li>
 <!--#endif-->
 <!--#if (EnableFeatureFlags)-->
-    <MudListItem Icon="@Icons.Material.Filled.Flag">Feature Flags</MudListItem>
+            <li>Feature Flags</li>
 <!--#endif-->
 <!--#if (EnableSecurity)-->
-    <MudListItem Icon="@Icons.Material.Filled.Shield">Security Headers</MudListItem>
+            <li>Security Headers</li>
 <!--#endif-->
-</MudList>
+        </ul>
+    </MudPaper>
+</MudContainer>
 
 @code {
     
