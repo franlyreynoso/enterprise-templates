@@ -5,7 +5,7 @@
   "identity": "Enterprise.Ui.ConfigurableTemplate",
   "name": "Enterprise Blazor UI Template",
   "shortName": "blazor-enterprise",
-  "sourceName": "Enterprise",
+  "sourceName": "Enterprise.App",
   "preferNameDirectory": true,
   "description": "A configurable enterprise Blazor Server template with selectable features",
   "symbols": {
@@ -347,15 +347,14 @@
         }
       ],
       "rename": {
-        "README.template.md": "README.md",
-        "enterprise-ui-template-full.sln": "Enterprise.sln"
+        "README.template.md": "README.md"
       },
       "exclude": ["README.md"]
     }
   ],
   "primaryOutputs": [
     {
-      "path": "Enterprise.sln"
+      "path": "Enterprise.App.sln"
     }
   ],
   "postActions": [

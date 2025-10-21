@@ -91,6 +91,34 @@ make logs                # View all logs
 make down               # Stop everything
 ```
 
+## 📝 Setup Scripts
+
+This repository contains multiple `setup.ps1` scripts, each serving a distinct purpose in the template lifecycle:
+
+### Fullstack Orchestrator Setup (`templates/fullstack-orchestrator/setup.ps1`)
+
+- **Phase**: Project Generation (runs **before** projects are created)
+- **Purpose**: Coordinates generation of both Web and API projects
+- **Triggers**: Automatically when using `dotnet new enterprise-fullstack`
+- **Actions**: 
+  - Checks prerequisites (.NET SDK, Docker)
+  - Generates Web project
+  - Generates API project
+  - Optionally starts development environment
+
+### Web Template Setup (`templates/web-template/setup.ps1`)
+
+- **Phase**: Project Configuration (runs **after** template generation)
+- **Purpose**: Configures individual generated web projects
+- **Triggers**: Manually executed by user in generated project
+- **Actions**:
+  - Detects enabled features
+  - Generates appsettings.json files
+  - Validates environment configuration
+  - Provides next steps and documentation
+
+**Note**: These scripts are complementary, not duplicates. Each operates at a different stage and serves a unique purpose.
+
 ## 🔧 Troubleshooting
 
 ### Template Installation Issues
@@ -151,6 +179,7 @@ For more detailed troubleshooting information, see the **[Installation Troublesh
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
 - **[Installation Troubleshooting](docs/INSTALLATION_TROUBLESHOOTING.md)** - Detailed troubleshooting guide
+- **[Naming Conventions](docs/NAMING_CONVENTIONS.md)** - Project and solution naming rules
 
 ---
 

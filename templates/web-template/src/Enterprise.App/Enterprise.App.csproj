@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Enterprise.Ui.Shared\Enterprise.Ui.Shared.csproj" />
+<!--#if (EnableAuth)-->
+    <ProjectReference Include="..\Enterprise.Ui.Auth\Enterprise.Ui.Auth.csproj" />
+<!--#endif-->
+<!--#if (EnableHttpResilience)-->
+    <ProjectReference Include="..\Enterprise.Ui.Http\Enterprise.Ui.Http.csproj" />
+<!--#endif-->
+<!--#if (EnableApiClient)-->
+    <ProjectReference Include="..\Enterprise.Ui.ApiClient\Enterprise.Ui.ApiClient.csproj" />
+<!--#endif-->
+<!--#if (EnableObservability)-->
+    <ProjectReference Include="..\Enterprise.Ui.Observability\Enterprise.Ui.Observability.csproj" />
+<!--#endif-->
+<!--#if (EnableFeatureFlags)-->
+    <ProjectReference Include="..\Enterprise.Ui.FeatureFlags\Enterprise.Ui.FeatureFlags.csproj" />
+<!--#endif-->
+<!--#if (EnableSecurity)-->
+    <ProjectReference Include="..\Enterprise.Ui.Security\Enterprise.Ui.Security.csproj" />
+<!--#endif-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+</Project>

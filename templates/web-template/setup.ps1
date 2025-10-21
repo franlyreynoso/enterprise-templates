@@ -1,13 +1,26 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Setup script for Enterprise UI Template
+    Web project post-generation configuration script
+
 .DESCRIPTION
-    This script configures your new Enterprise UI project by:
-    1. Generating appsettings.json files based on selected features
-    2. Providing next steps and documentation links
+    This script configures your generated Enterprise UI project.
+    
+    Phase: PROJECT CONFIGURATION (runs AFTER template generation)
+    Scope: Single-project setup
+    
+    This script:
+    1. Detects enabled features from your project structure
+    2. Generates appsettings.json files based on detected features
+    3. Validates environment files (.env.dev, .env.staging, .env.prod)
+    4. Provides comprehensive next steps and documentation
+
 .PARAMETER Help
     Show this help message
+
+.NOTES
+    This is NOT the same as the fullstack-orchestrator setup.ps1 which runs
+    BEFORE generation to coordinate multiple template creation.
 #>
 
 param(
