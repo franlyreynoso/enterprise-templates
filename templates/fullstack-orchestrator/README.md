@@ -8,22 +8,34 @@ This template generates a workspace that coordinates both Web and API templates:
 
 ### 1. Generate Individual Projects
 
-````bash
+```bash
 # Generate Web project
-dotnet new blazor-enterprise -n WEB_PROJECT_NAME
+dotnet new blazor-enterprise -n MyWebApp
 
 # Generate API project
-dotnet new enterprise-clean -n API_PROJECT_NAME
-```### 2. Start Development Environment
+dotnet new enterprise-clean -n MyApiApp
+```
+
+### 2. Configure Project Names
+
+Update the `.env.dev` file (and other environment files as needed) to point to your actual project names:
+
+```bash
+# In .env.dev, .env.staging, .env.prod
+WEB_PROJECT=MyWebApp
+API_PROJECT=MyApiApp
+```
+
+### 3. Start Development Environment
 
 ```bash
 # Start complete fullstack environment
 make up-fullstack
 
 # Or start components individually
-make up-web-only
-make up-backend-only
-````
+make up-web
+make up-api
+```
 
 ### 3. Access Services
 
