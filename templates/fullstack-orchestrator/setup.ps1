@@ -1,6 +1,25 @@
 #!/usr/bin/env pwsh
-# Enterprise Fullstack Setup Script
-# Generates Web and API projects and sets up the complete development environment
+<#
+.SYNOPSIS
+    Enterprise Fullstack project generation coordinator
+
+.DESCRIPTION
+    This script is part of the enterprise-fullstack meta-template.
+    It coordinates the generation of both Web (Blazor) and API (Clean Architecture) projects.
+    
+    Phase: PROJECT GENERATION (runs BEFORE projects are created)
+    Scope: Multi-project coordination
+    
+    This script:
+    1. Checks prerequisites (.NET SDK, Docker)
+    2. Generates Web project using blazor-enterprise template
+    3. Generates API project using enterprise-clean template
+    4. Optionally starts the full development environment
+
+.NOTES
+    This is NOT the same as the web-template setup.ps1 which runs AFTER generation
+    to configure individual projects.
+#>
 
 param(
     [string]$WebProjectName = "WEB_PROJECT_NAME",
