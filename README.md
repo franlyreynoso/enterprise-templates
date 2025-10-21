@@ -124,6 +124,8 @@ The .NET template system recursively scans directories when you run `dotnet new 
 
 The `install-all.ps1` script properly installs each template from its correct location and handles path normalization.
 
+For more detailed troubleshooting information, see the **[Installation Troubleshooting Guide](docs/INSTALLATION_TROUBLESHOOTING.md)**.
+
 ## 📖 Key Benefits
 
 ### 🏗️ Clean Separation
@@ -148,6 +150,7 @@ The `install-all.ps1` script properly installs each template from its correct lo
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
+- **[Installation Troubleshooting](docs/INSTALLATION_TROUBLESHOOTING.md)** - Detailed troubleshooting guide
 
 ---
 
