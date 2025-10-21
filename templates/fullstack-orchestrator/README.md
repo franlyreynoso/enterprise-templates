@@ -10,7 +10,7 @@ This template generates a workspace that coordinates both Web and API templates:
 
 ````bash
 # Generate Web project
-dotnet new blazor-enterprise-web -n WEB_PROJECT_NAME
+dotnet new blazor-enterprise -n WEB_PROJECT_NAME
 
 # Generate API project
 dotnet new enterprise-clean -n API_PROJECT_NAME
@@ -65,13 +65,13 @@ make up-backend-only
 
 ```bash
 # Development (default)
-make up-dev              # Both UI and API in development mode
+make up-dev              # Both Web and API in development mode
 
 # Staging
-make up-staging          # Both UI and API in staging mode
+make up-staging          # Both Web and API in staging mode
 
 # Production simulation
-make up-prod             # Both UI and API in production mode
+make up-prod             # Both Web and API in production mode
 ```
 
 ## 📁 Generated Structure
@@ -95,11 +95,11 @@ EnterpriseFullstack/
 ### Infrastructure Management
 
 ```bash
-make up-fullstack        # Start UI + API + Infrastructure
+make up-fullstack        # Start Web + API + Infrastructure
 make up-web-only          # Start Web Template only
 make up-backend-only     # Start API template only
 make logs               # View all service logs
-make logs-web            # View UI logs only
+make logs-web            # View Web logs only
 make logs-backend       # View API logs only
 make down              # Stop all services
 ```
@@ -116,7 +116,7 @@ make up ENV=prod        # Production environment
 
 ```bash
 make health             # Check all service health
-make health-web          # Check UI health
+make health-web          # Check Web health
 make health-backend     # Check API health
 ```
 
@@ -124,7 +124,7 @@ make health-backend     # Check API health
 
 ### Database Sharing
 
-Both UI and API connect to the same PostgreSQL instance:
+Both Web and API connect to the same PostgreSQL instance:
 
 - **Development**: `enterprisefullstack_dev`
 - **Staging**: `enterprisefullstack_staging`
@@ -134,11 +134,11 @@ Both UI and API connect to the same PostgreSQL instance:
 
 - **Distributed Tracing**: Both services send traces to shared Jaeger
 - **Centralized Logging**: Both services log to shared Seq instance
-- **Correlation IDs**: Request correlation across UI and API calls
+- **Correlation IDs**: Request correlation across Web and API calls
 
 ### Message Bus Coordination
 
-When enabled, both UI and API can:
+When enabled, both Web and API can:
 
 - Publish messages to shared RabbitMQ instance
 - Subscribe to shared message topics
@@ -158,7 +158,7 @@ Each template generates its own Dockerfile:
 
 ```bash
 # Build for production
-docker build -t enterprisefullstack-ui:latest ./WEB_PROJECT_NAME
+docker build -t enterprisefullstack-web:latest ./WEB_PROJECT_NAME
 docker build -t enterprisefullstack-api:latest ./API_PROJECT_NAME
 
 # Deploy to staging
