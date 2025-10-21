@@ -4,6 +4,21 @@
 
 This configurable .NET template allows you to create enterprise Blazor applications with selectively enabled features. Choose from predefined presets or customize individual features to match your project requirements.
 
+## 📛 Project Naming
+
+When you create a project using the `-n` parameter, the template automatically names all artifacts accordingly:
+
+```bash
+dotnet new blazor-enterprise -n MyCompany.WebApp
+```
+
+This generates:
+- **Solution**: `MyCompany.WebApp.sln`
+- **Main Project**: `src/MyCompany.WebApp/MyCompany.WebApp.csproj`
+- **Library Projects**: `src/Enterprise.Ui.*/` (shared libraries with consistent names)
+
+> **Naming Convention**: Use PascalCase with dots (e.g., `Acme.Portal`, `Contoso.Admin.Dashboard`). See [Naming Conventions](../../docs/NAMING_CONVENTIONS.md) for more details.
+
 ## 🚀 Quick Start
 
 ### Install the Template

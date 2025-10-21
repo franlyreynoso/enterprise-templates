@@ -1,0 +1,36 @@
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudText Typo="Typo.h3" GutterBottom="true">Welcome to Enterprise.App</MudText>
+    <MudText Typo="Typo.body1" Class="mb-8">This is your enterprise Blazor application.</MudText>
+
+    <MudPaper Class="pa-4">
+        <MudText Typo="Typo.h6" GutterBottom="true">Configured Features:</MudText>
+        <ul>
+<!--#if (EnableAuth)-->
+            <li>Authentication & Authorization</li>
+<!--#endif-->
+<!--#if (EnableHttpResilience)-->
+            <li>HTTP Client with Resilience</li>
+<!--#endif-->
+<!--#if (EnableApiClient)-->
+            <li>API Client Generation</li>
+<!--#endif-->
+<!--#if (EnableObservability)-->
+            <li>OpenTelemetry Observability</li>
+<!--#endif-->
+<!--#if (EnableFeatureFlags)-->
+            <li>Feature Flags</li>
+<!--#endif-->
+<!--#if (EnableSecurity)-->
+            <li>Security Headers</li>
+<!--#endif-->
+        </ul>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    
+}

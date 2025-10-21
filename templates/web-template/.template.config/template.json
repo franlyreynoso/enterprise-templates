@@ -347,15 +347,14 @@
         }
       ],
       "rename": {
-        "README.template.md": "README.md",
-        "enterprise-ui-template-full.sln": "Company.SourceName.sln"
+        "README.template.md": "README.md"
       },
       "exclude": ["README.md"]
     }
   ],
   "primaryOutputs": [
     {
-      "path": "Company.SourceName.sln"
+      "path": "Enterprise.App.sln"
     }
   ],
   "postActions": [
