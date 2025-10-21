@@ -1,0 +1,35 @@
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Welcome to Enterprise.App</MudText>
+<MudText Class="mb-8">This is your enterprise Blazor application.</MudText>
+
+<MudAlert Severity="Severity.Info" Class="mb-4">
+    Your application has been configured with the following features:
+</MudAlert>
+
+<MudList>
+<!--#if (EnableAuth)-->
+    <MudListItem Icon="@Icons.Material.Filled.Security">Authentication & Authorization</MudListItem>
+<!--#endif-->
+<!--#if (EnableHttpResilience)-->
+    <MudListItem Icon="@Icons.Material.Filled.Http">HTTP Client with Resilience</MudListItem>
+<!--#endif-->
+<!--#if (EnableApiClient)-->
+    <MudListItem Icon="@Icons.Material.Filled.Api">API Client Generation</MudListItem>
+<!--#endif-->
+<!--#if (EnableObservability)-->
+    <MudListItem Icon="@Icons.Material.Filled.Visibility">OpenTelemetry Observability</MudListItem>
+<!--#endif-->
+<!--#if (EnableFeatureFlags)-->
+    <MudListItem Icon="@Icons.Material.Filled.Flag">Feature Flags</MudListItem>
+<!--#endif-->
+<!--#if (EnableSecurity)-->
+    <MudListItem Icon="@Icons.Material.Filled.Shield">Security Headers</MudListItem>
+<!--#endif-->
+</MudList>
+
+@code {
+    
+}
