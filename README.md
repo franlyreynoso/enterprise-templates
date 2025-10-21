@@ -178,6 +178,7 @@ For more detailed troubleshooting information, see the **[Installation Troublesh
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Orchestration system design
 - **[Backend Template](docs/BACKEND-TEMPLATE.md)** - API template details
+- **[Fullstack Setup Guide](docs/FULLSTACK_SETUP_GUIDE.md)** - Step-by-step setup for fullstack orchestrator
 - **[Installation Troubleshooting](docs/INSTALLATION_TROUBLESHOOTING.md)** - Detailed troubleshooting guide
 - **[Naming Conventions](docs/NAMING_CONVENTIONS.md)** - Project and solution naming rules
 
