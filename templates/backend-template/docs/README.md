@@ -23,18 +23,18 @@ docker compose up -d
 Start the API server with development settings:
 
 ```bash
-dotnet run --project src/Api -- --urls http://localhost:5000 --environment Development
+dotnet run --project src/Api -- --urls http://localhost:5100 --environment Development
 ```
 
 ### 3. Verify Setup
 
 Test the endpoints:
 
-- Health checks: `GET http://localhost:5000/health/live`
-- List todos: `GET http://localhost:5000/todos`
-- Create todo: `POST http://localhost:5000/todos` with `{ "title": "Test todo" }`
-- Test messaging: `POST http://localhost:5000/bus/ping`
-- Test tracing: `GET http://localhost:5000/test/external`
+- Health checks: `GET http://localhost:5100/health/live`
+- List todos: `GET http://localhost:5100/todos`
+- Create todo: `POST http://localhost:5100/todos` with `{ "title": "Test todo" }`
+- Test messaging: `POST http://localhost:5100/bus/ping`
+- Test tracing: `GET http://localhost:5100/test/external`
 
 ## 📁 Project Structure
 
@@ -91,8 +91,8 @@ When running locally with Docker Compose:
 
 | Service             | URL                           | Purpose                  |
 | ------------------- | ----------------------------- | ------------------------ |
-| API                 | http://localhost:5000         | Main application API     |
-| Swagger UI          | http://localhost:5000/swagger | API documentation        |
+| API                 | http://localhost:5100         | Main application API     |
+| Swagger UI          | http://localhost:5100/swagger | API documentation        |
 | PgAdmin             | http://localhost:5050         | Database management      |
 | RabbitMQ Management | http://localhost:16672        | Message queue management |
 | Jaeger UI           | http://localhost:16686        | Distributed tracing      |
@@ -160,7 +160,7 @@ Monitor application health:
 Test event publishing:
 
 ```bash
-curl -X POST http://localhost:5000/bus/ping
+curl -X POST http://localhost:5100/bus/ping
 ```
 
 ## 🔍 Observability

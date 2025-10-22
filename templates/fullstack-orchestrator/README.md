@@ -39,8 +39,8 @@ make up-fullstack
 ### 3. Access Services
 
 - **Web Application**: http://localhost:3000
-- **API**: http://localhost:5000
-- **API Documentation**: http://localhost:5000/swagger
+- **API**: http://localhost:5100
+- **API Documentation**: http://localhost:5100/swagger
 - **Database Admin**: http://localhost:5050 (pgAdmin)
 - **Message Queue**: http://localhost:16672 (RabbitMQ)
 - **Tracing**: http://localhost:16686 (Jaeger)
@@ -57,7 +57,7 @@ make up-fullstack
 ### Perfect Integration
 
 - **Service Sharing**: Both templates use identical infrastructure services
-- **Port Coordination**: Web (3000-3002) and API (5000-5002) avoid conflicts
+- **Port Coordination**: Web (3000-3002) and API (5100-5301) avoid conflicts
 - **Environment Alignment**: Consistent environment variables and service names
 - **Development Parity**: Local development mirrors production architecture
 

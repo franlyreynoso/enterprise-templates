@@ -61,13 +61,13 @@
       }
     }
   },
-  "forwardPorts": [3000, 5000, 5432, 5341, 16686, 15672],
+  "forwardPorts": [3000, 5100, 5432, 5341, 16686, 15672],
   "portsAttributes": {
     "3000": {
       "label": "Web Application",
       "protocol": "https"
     },
-    "5000": {
+    "5100": {
       "label": "API",
       "protocol": "https"
     },
