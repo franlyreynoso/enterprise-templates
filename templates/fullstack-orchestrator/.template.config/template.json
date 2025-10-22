@@ -13,6 +13,29 @@
   "sourceName": "EnterpriseFullstack",
   "preferNameDirectory": true,
   "symbols": {
+    "DbNameLower": {
+      "type": "generated",
+      "generator": "casing",
+      "parameters": {
+        "source": "name",
+        "toLower": true
+      }
+    },
+    "DbName": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "replaces": "enterprisefullstack",
+      "parameters": {
+        "source": "DbNameLower",
+        "steps": [
+          {
+            "regex": "\\.",
+            "replacement": "_"
+          }
+        ]
+      }
+    },
     "webProjectName": {
       "type": "parameter",
       "description": "Name for the Web project (Blazor Server)",
