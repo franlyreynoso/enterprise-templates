@@ -9,10 +9,9 @@ services:
       target: build
     ports:
       - "7000:8080"
-      - "7001:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - ASPNETCORE_URLS=http://+:8080
       - Logging__LogLevel__Default=Debug
       - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
       - Auth__ClientSecret=${AUTH_CLIENT_SECRET}
@@ -22,7 +21,6 @@ services:
       - Serilog__WriteTo__1__Args__serverUrl=${SEQ_URL}
       - Serilog__WriteTo__1__Args__apiKey=${SEQ_API_KEY}
     volumes:
-      - ~/.aspnet/https:/https:ro
       - ./src:/src
     networks:
       - enterprise-network

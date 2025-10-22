@@ -565,12 +565,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "7000:8080"
-      - "7001:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:8081;http://+:8080
-    volumes:
-      - ~/.aspnet/https:/https:ro
+      - ASPNETCORE_URLS=http://+:8080
     depends_on:
       - db
 

@@ -9,17 +9,15 @@ services:
       target: build
     ports:
       - "7000:8080"
-      - "7001:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - ASPNETCORE_URLS=http://+:8080
       - Logging__LogLevel__Default=Debug
-      - Backend__ApiUrl=https://api:8081
-      - Auth__Authority=https://api:8081
+      - Backend__ApiUrl=http://api:8080
+      - Auth__Authority=http://api:8080
       - Auth__ClientSecret=${AUTH_CLIENT_SECRET:-dev-secret}
       - Observability__OtlpEndpoint=http://jaeger:4317
     volumes:
-      - ~/.aspnet/https:/https:ro
       - ./src:/src
     depends_on:
       - api
@@ -37,17 +35,14 @@ services:
     image: ${BACKEND_IMAGE:-enterprise-backend:latest}
     ports:
       - "8001:8080"
-      - "8002:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+      - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING:-Host=db;Port=5432;Database=enterpriseui_dev;Username=app;Password=app}
-      - Auth__Issuer=https://api:8081
+      - Auth__Issuer=http://api:8080
       - Observability__OtlpEndpoint=http://jaeger:4317
     depends_on:
       - db
-    volumes:
-      - ~/.aspnet/https:/https:ro
     networks:
       - enterprise-integrated
     healthcheck:
