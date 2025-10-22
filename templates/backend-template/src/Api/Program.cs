@@ -179,7 +179,9 @@ app.UseReferrerPolicy(x => x.NoReferrer());
 app.UseXXssProtection(x => x.EnabledWithBlockMode());
 app.UseXfo(x => x.Deny()); // deny iframing
 
-app.UseHttpsRedirection();
+// HTTPS redirection is commented out as HTTPS termination should be handled by reverse proxy
+// If running in production with HTTPS configured, uncomment the following line:
+// app.UseHttpsRedirection();
 
 // Only use authentication middleware if authentication is configured
 if (string.Equals(authMode, "Jwt", StringComparison.OrdinalIgnoreCase))
