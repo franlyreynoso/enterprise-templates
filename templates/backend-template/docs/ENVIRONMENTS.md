@@ -63,10 +63,21 @@ docker compose --env-file .env.dev -f docker-compose.envs.yml up -d --profile de
 - RabbitMQ: Custom ports (6672/16672) to avoid conflicts
 - Health Checks: Fast intervals for quick feedback
 
-**API Startup**:
+**API Startup Options**:
 
+**Option 1: Containerized (Recommended)**
 ```bash
-dotnet run --project src/Api -- --urls http://localhost:5100 --environment Development
+# API runs in Docker container with ASPNETCORE_ENVIRONMENT=Development
+# Uses appsettings.Development.json with Docker service names
+docker compose up api
+```
+
+**Option 2: Local Machine**
+```bash
+# API runs directly on host machine, connecting to containerized services
+# Uses appsettings.Local.json with localhost connections
+$env:ASPNETCORE_ENVIRONMENT="Local"
+dotnet run --project src/Api -- --urls http://localhost:5100
 ```
 
 ### **Staging Environment**
@@ -134,6 +145,32 @@ ASP.NET Core configuration layering:
 3. Environment variables - Runtime overrides
 4. Command-line arguments - Final overrides
 
+### **Appsettings File Usage**
+
+The template includes multiple appsettings files for different scenarios:
+
+| File | Environment | When to Use | Connection Targets |
+|------|-------------|-------------|-------------------|
+| `appsettings.json` | All | Base configuration shared across all environments | N/A |
+| `appsettings.Development.json` | Development | **Containerized development** (API running in Docker) | Docker service names (`postgres`, `redis`, `rabbitmq`, `seq`, `otel`) |
+| `appsettings.Local.json` | Local | **Local machine development** (API running outside containers via `dotnet run`) | Localhost services (`localhost:5432`, `localhost:6379`, etc.) |
+| `appsettings.Staging.json` | Staging | Pre-production environment | Environment-specific endpoints |
+| `appsettings.Production.json` | Production | Production environment | Production endpoints |
+
+**Important Notes:**
+- **Development Environment (ASPNETCORE_ENVIRONMENT=Development)**: Used when running the API in a Docker container. Uses Docker service names for networking between containers.
+- **Local Environment (ASPNETCORE_ENVIRONMENT=Local)**: Used when running the API directly on your machine with `dotnet run`. Connects to infrastructure services via localhost ports.
+
+To run in Local environment:
+```bash
+# Set the environment variable
+$env:ASPNETCORE_ENVIRONMENT="Local"  # Windows PowerShell
+export ASPNETCORE_ENVIRONMENT=Local   # Linux/macOS
+
+# Run the API
+dotnet run --project src/Api
+```
+
 ### **Environment Variables**
 
 Each environment uses dedicated `.env` files:
@@ -147,15 +184,47 @@ Each environment uses dedicated `.env` files:
 
 ### **Connection Strings**
 
-Environment-specific database connections:
+Connection strings are environment-specific based on where the API is running:
 
+**Development (Containerized API)**
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Host=localhost;Port=5432;Database={env}_database;Username=app;Password=app"
+    "Default": "Host=postgres;Port=5432;Database=enterprisetemplate_dev;Username=app;Password=app",
+    "Redis": "redis:6379"
+  },
+  "RabbitMQ": {
+    "Host": "rabbitmq",
+    "Port": 5672
+  },
+  "Telemetry": { "OtlpExporterUrl": "http://otel:4317" },
+  "Serilog": {
+    "WriteTo": [{ "Name": "Seq", "Args": { "serverUrl": "http://seq:80" } }]
   }
 }
 ```
+
+**Local (API on Host Machine)**
+```json
+{
+  "ConnectionStrings": {
+    "Default": "Host=localhost;Port=5432;Database=enterprisetemplate_dev;Username=app;Password=app",
+    "Redis": "localhost:6379"
+  },
+  "RabbitMQ": {
+    "Host": "localhost",
+    "Port": 6672
+  },
+  "Telemetry": { "OtlpExporterUrl": "http://localhost:4317" },
+  "Serilog": {
+    "WriteTo": [{ "Name": "Seq", "Args": { "serverUrl": "http://localhost:5341" } }]
+  }
+}
+```
+
+**Why the Difference?**
+- **Docker networking**: Containers communicate using service names defined in `docker-compose.yml`
+- **Host networking**: Applications on the host machine connect via `localhost` and mapped ports
 
 ### **Cloud Switching**
 
@@ -312,6 +381,43 @@ Each environment exposes standardized health checks:
 - [ ] Message publishing/consuming functional
 - [ ] Database queries executing
 - [ ] Traces appearing in Jaeger
+
+## 🐛 Troubleshooting
+
+### **Connection Issues**
+
+**Problem**: API cannot connect to database or other services
+
+**Solution**: Verify you're using the correct appsettings file for your environment
+
+1. **Running API in Docker container**:
+   - Ensure `ASPNETCORE_ENVIRONMENT=Development`
+   - Uses `appsettings.Development.json` with Docker service names
+   - Check: `docker logs <container-name>` for connection errors
+
+2. **Running API on host machine**:
+   - Set `ASPNETCORE_ENVIRONMENT=Local`
+   - Uses `appsettings.Local.json` with localhost connections
+   - Ensure infrastructure services are running: `make up-dev`
+
+3. **Verify connectivity**:
+   ```bash
+   # From host machine
+   psql -h localhost -p 5432 -U app -d enterprisetemplate_dev
+   
+   # From inside API container
+   docker exec -it <api-container> /bin/bash
+   apt-get update && apt-get install -y postgresql-client
+   psql -h postgres -p 5432 -U app -d enterprisetemplate_dev
+   ```
+
+### **Common Mistakes**
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| "Connection refused" when API in container | Using `localhost` instead of service names | Set `ASPNETCORE_ENVIRONMENT=Development` (not Local) |
+| "Connection refused" when running `dotnet run` | Using service names instead of localhost | Set `ASPNETCORE_ENVIRONMENT=Local` |
+| Wrong database | Using incorrect appsettings file | Check environment variable and appsettings file content |
 
 ---
 
