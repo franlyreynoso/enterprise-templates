@@ -108,7 +108,8 @@ services:
       COLLECTOR_OTLP_ENABLED: true
     ports:
       - "${JAEGER_UI_PORT:-16686}:16686"
-      - "${JAEGER_OTLP_GRPC_PORT:-14317}:14317"
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
     profiles:
       - fullstack
       - web-infra
