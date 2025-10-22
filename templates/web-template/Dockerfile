@@ -14,7 +14,7 @@ WORKDIR /src
 # Copy project files for dependency restoration
 COPY ["Directory.Packages.props", "./"]
 COPY ["Directory.Build.props", "./"]
-COPY ["enterprise-ui-template-full.sln", "./"]
+COPY ["Enterprise.App.sln", "./"]
 
 # Copy all source projects
 COPY ["src/Enterprise.App/Enterprise.App.csproj", "src/Enterprise.App/"]

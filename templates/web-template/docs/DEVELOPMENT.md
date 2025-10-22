@@ -19,8 +19,8 @@ Ensure you have the following installed:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-org/enterprise-ui-template-full.git
-   cd enterprise-ui-template-full
+   git clone https://github.com/your-org/Enterprise.App.git
+   cd Enterprise.App
    ```
 
 2. **Restore dependencies**:
@@ -143,7 +143,7 @@ The project includes multiple launch profiles in `launchSettings.json`:
       "label": "build",
       "command": "dotnet",
       "type": "process",
-      "args": ["build", "${workspaceFolder}/enterprise-ui-template-full.sln"],
+      "args": ["build", "${workspaceFolder}/Enterprise.App.sln"],
       "group": "build",
       "presentation": {
         "reveal": "silent"
@@ -535,7 +535,7 @@ WORKDIR /src
 # Copy project files
 COPY ["Directory.Packages.props", "./"]
 COPY ["Directory.Build.props", "./"]
-COPY ["enterprise-ui-template-full.sln", "./"]
+COPY ["Enterprise.App.sln", "./"]
 COPY ["src/", "src/"]
 
 # Restore dependencies

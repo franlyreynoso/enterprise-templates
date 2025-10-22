@@ -28,7 +28,7 @@
         "ms-vscode.vscode-json"
       ],
       "settings": {
-        "dotnet.defaultSolution": "enterprise-ui-template-full.sln",
+        "dotnet.defaultSolution": "Enterprise.App.sln",
         "files.exclude": {
           "**/bin": true,
           "**/obj": true

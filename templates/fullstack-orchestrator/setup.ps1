@@ -119,6 +119,22 @@ if (-not $SkipGeneration) {
 
     Write-Host ""
     Write-Host "🎉 Project generation completed!" -ForegroundColor Green
+    
+    # Update .env files with generated project names
+    Write-Host "📝 Updating environment configuration..." -ForegroundColor Yellow
+    
+    $envFiles = @(".env.dev", ".env.staging", ".env.prod")
+    foreach ($envFile in $envFiles) {
+        if (Test-Path $envFile) {
+            $content = Get-Content $envFile -Raw
+            $content = $content -replace 'WEB_PROJECT=WEB_PROJECT_NAME', "WEB_PROJECT=$WebProjectName"
+            $content = $content -replace 'API_PROJECT=API_PROJECT_NAME', "API_PROJECT=$APIProjectName"
+            Set-Content -Path $envFile -Value $content -NoNewline
+            Write-Host "  ✅ Updated $envFile" -ForegroundColor Green
+        }
+    }
+    
+    Write-Host "✅ Configuration updated!" -ForegroundColor Green
 }
 
 # Start environment if requested

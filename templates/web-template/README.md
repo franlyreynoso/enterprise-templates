@@ -138,7 +138,7 @@ docs/                               # Documentation
 
 ```bash
 git clone <repository-url>
-cd enterprise-ui-template-full
+cd Enterprise.App
 dotnet restore
 ```
 
