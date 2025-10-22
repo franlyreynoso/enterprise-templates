@@ -90,8 +90,6 @@ services:
       - "${JAEGER_GRPC_PORT}:14250" # Jaeger gRPC
       - "${JAEGER_THRIFT_PORT}:14268" # Jaeger thrift
       - "${JAEGER_ZIPKIN_PORT}:9411" # Zipkin compatibility
-      - "4317:4317" # OTLP gRPC
-      - "4318:4318" # OTLP HTTP
     networks:
       - enterprise-network
 
