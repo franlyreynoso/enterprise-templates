@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddAzurePack(IServiceCollection s, IConfiguration c, bool _=false)
     {
         // First add core infrastructure (database, etc.)
-        EnterpriseTemplate.Infrastructure.OnPremPack.ServiceCollectionExtensions.AddInfrastructure(s, c);
+        InfrastructureRegistration.AddInfrastructure(s, c);
         
         // Register Azure implementations here (Key Vault, Service Bus, Blob, Redis, etc.)
         s.AddSingleton<ISecrets, NoopSecrets>();
