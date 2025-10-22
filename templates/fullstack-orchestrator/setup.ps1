@@ -148,8 +148,8 @@ if ($StartEnvironment) {
         Write-Host ""
         Write-Host "🌐 Access your applications:" -ForegroundColor Cyan
         Write-Host "  Web Application: http://localhost:3000" -ForegroundColor White
-        Write-Host "  API: http://localhost:5000" -ForegroundColor White
-        Write-Host "  API Documentation: http://localhost:5000/swagger" -ForegroundColor White
+        Write-Host "  API: http://localhost:5100" -ForegroundColor White
+        Write-Host "  API Documentation: http://localhost:5100/swagger" -ForegroundColor White
         Write-Host "  Database Admin: http://localhost:5050 (admin@example.com / admin)" -ForegroundColor White
         Write-Host "  Message Queue: http://localhost:15672 (app / app)" -ForegroundColor White
         Write-Host "  Distributed Tracing: http://localhost:16686" -ForegroundColor White

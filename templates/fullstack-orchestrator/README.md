@@ -57,7 +57,7 @@ make up-fullstack
 ### Perfect Integration
 
 - **Service Sharing**: Both templates use identical infrastructure services
-- **Port Coordination**: Web (3000-3002) and API (5000-5002) avoid conflicts
+- **Port Coordination**: Web (3000-3002) and API (5100-5301) avoid conflicts
 - **Environment Alignment**: Consistent environment variables and service names
 - **Development Parity**: Local development mirrors production architecture
 
