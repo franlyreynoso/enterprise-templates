@@ -361,13 +361,49 @@ app.MapGet("/audit/recent", async (IMediator mediator, int pageSize = 20, int pa
 // Map controllers
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
-}
+// Apply database migrations with retry logic
+await ApplyDatabaseMigrationsAsync(app.Services);
 
 app.Run();
+
+static async Task ApplyDatabaseMigrationsAsync(IServiceProvider services)
+{
+    const int maxRetries = 10;
+    const int delaySeconds = 5;
+    
+    for (int attempt = 1; attempt <= maxRetries; attempt++)
+    {
+        try
+        {
+            using var scope = services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            
+            logger.LogInformation("Attempting to apply database migrations (attempt {Attempt}/{MaxRetries})...", attempt, maxRetries);
+            await db.Database.MigrateAsync();
+            logger.LogInformation("Database migrations applied successfully");
+            return;
+        }
+        catch (Exception ex)
+        {
+            if (attempt == maxRetries)
+            {
+                using var scope = services.CreateScope();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "Failed to apply database migrations after {MaxRetries} attempts. Please ensure the database is accessible and configured correctly.", maxRetries);
+                throw new InvalidOperationException($"Failed to connect to the database after {maxRetries} attempts. Please ensure PostgreSQL is running and the connection string is correct. See inner exception for details.", ex);
+            }
+            
+            using (var scope = services.CreateScope())
+            {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogWarning(ex, "Database migration attempt {Attempt}/{MaxRetries} failed. Retrying in {DelaySeconds} seconds...", attempt, maxRetries, delaySeconds);
+            }
+            
+            await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
+        }
+    }
+}
 
 public partial class Program { }
 
