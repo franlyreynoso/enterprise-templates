@@ -39,8 +39,8 @@ make up-fullstack
 ### 3. Access Services
 
 - **Web Application**: http://localhost:3000
-- **API**: http://localhost:5000
-- **API Documentation**: http://localhost:5000/swagger
+- **API**: http://localhost:5100
+- **API Documentation**: http://localhost:5100/swagger
 - **Database Admin**: http://localhost:5050 (pgAdmin)
 - **Message Queue**: http://localhost:16672 (RabbitMQ)
 - **Tracing**: http://localhost:16686 (Jaeger)

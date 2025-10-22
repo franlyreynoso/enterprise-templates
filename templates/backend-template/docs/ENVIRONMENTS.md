@@ -66,7 +66,7 @@ docker compose --env-file .env.dev -f docker-compose.envs.yml up -d --profile de
 **API Startup**:
 
 ```bash
-dotnet run --project src/Api -- --urls http://localhost:5000 --environment Development
+dotnet run --project src/Api -- --urls http://localhost:5100 --environment Development
 ```
 
 ### **Staging Environment**
@@ -93,7 +93,7 @@ docker compose --env-file .env.staging -f docker-compose.envs.yml up -d --profil
 
 ```bash
 $env:ASPNETCORE_ENVIRONMENT="Staging"
-dotnet run --project src/Api -- --urls http://localhost:5001 --environment Staging
+dotnet run --project src/Api -- --urls http://localhost:5200 --environment Staging
 ```
 
 ### **Production Environment** (Local Simulation)
@@ -120,7 +120,7 @@ docker compose --env-file .env.prod -f docker-compose.envs.yml up -d --profile p
 
 ```bash
 $env:ASPNETCORE_ENVIRONMENT="Production"
-dotnet run --project src/Api -- --urls http://localhost:5002 --environment Production
+dotnet run --project src/Api -- --urls http://localhost:5300 --environment Production
 ```
 
 ## ⚙️ Configuration Strategy
@@ -176,7 +176,7 @@ Consistent port allocation across environments:
 
 | Service             | Development | Staging | Production |
 | ------------------- | ----------- | ------- | ---------- |
-| API                 | 5000        | 5001    | 5002       |
+| API                 | 5100        | 5200    | 5300       |
 | PostgreSQL          | 5432        | 5433    | 5434       |
 | RabbitMQ AMQP       | 6672        | 6673    | 6674       |
 | RabbitMQ Management | 16672       | 16673   | 16674      |
@@ -221,21 +221,21 @@ make down-prod   # Stop and clean production
 
 ```bash
 # Development
-curl http://localhost:5000/health/live
+curl http://localhost:5100/health/live
 
 # Staging
-curl http://localhost:5001/health/live
+curl http://localhost:5200/health/live
 
 # Production
-curl http://localhost:5002/health/live
+curl http://localhost:5300/health/live
 ```
 
 ### **Service Access**
 
 Development environment URLs:
 
-- API: http://localhost:5000
-- Swagger: http://localhost:5000/swagger
+- API: http://localhost:5100
+- Swagger: http://localhost:5100/swagger
 - RabbitMQ: http://localhost:16672 (app/app)
 - Jaeger: http://localhost:16686
 - MailHog: http://localhost:8025

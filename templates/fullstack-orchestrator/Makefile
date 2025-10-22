@@ -13,13 +13,13 @@ help:
 	@Write-Host '🚀 Enterprise Fullstack Orchestrator' -ForegroundColor Green; Write-Host '================================'; Write-Host 'Environment Commands:' -ForegroundColor Cyan; Write-Host '  make up-fullstack     Start complete environment (Web + API + Infrastructure)'; Write-Host '  make up-web          Start Web application with infrastructure'; Write-Host '  make up-api          Start API services with infrastructure'; Write-Host '  make down            Stop all services'; Write-Host ''; Write-Host 'Development Commands:' -ForegroundColor Cyan; Write-Host '  make build           Build both Web and API projects'; Write-Host '  make test            Run all tests'; Write-Host '  make health          Check project and service health'; Write-Host '  make logs            View service logs'; Write-Host ''; Write-Host 'Setup Commands:' -ForegroundColor Cyan; Write-Host '  make setup           Generate Web and API projects'; Write-Host '  make clean           Clean all build outputs'
 
 up-fullstack: check-projects
-	@Write-Host 'Starting fullstack environment...' -ForegroundColor Green; $$env:COMPOSE_PROFILES='fullstack'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'Environment started! Web: http://localhost:$${WEB_HTTP_PORT:-3000} API: http://localhost:$${API_HTTP_PORT:-5000}' -ForegroundColor Cyan
+	@Write-Host 'Starting fullstack environment...' -ForegroundColor Green; $$env:COMPOSE_PROFILES='fullstack'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'Environment started! Web: http://localhost:$${WEB_HTTP_PORT:-3000} API: http://localhost:$${API_HTTP_PORT:-5100}' -ForegroundColor Cyan
 
 up-web: check-projects
 	@Write-Host 'Starting Web application with infrastructure...' -ForegroundColor Blue; $$env:COMPOSE_PROFILES='web-infra'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'Web application started! Web: http://localhost:$${WEB_HTTP_PORT:-3000}' -ForegroundColor Cyan
 
 up-api: check-projects
-	@Write-Host 'Starting API services with infrastructure...' -ForegroundColor Magenta; $$env:COMPOSE_PROFILES='backend-infra'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'API services started! API: http://localhost:$${API_HTTP_PORT:-5000}' -ForegroundColor Cyan
+	@Write-Host 'Starting API services with infrastructure...' -ForegroundColor Magenta; $$env:COMPOSE_PROFILES='backend-infra'; docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; Write-Host 'API services started! API: http://localhost:$${API_HTTP_PORT:-5100}' -ForegroundColor Cyan
 
 check-projects:
 	@if (-not (Test-Path '$(WEB_PROJECT)') -or -not (Test-Path '$(API_PROJECT)')) { Write-Host '📦 Projects not found. Running setup...' -ForegroundColor Yellow; & $(MAKE) setup; if ($$LASTEXITCODE -ne 0) { exit 1 } }
@@ -59,13 +59,13 @@ help:
 	@echo "🚀 Enterprise Fullstack Orchestrator"; echo "================================"; echo "Environment Commands:"; echo "  make up-fullstack     Start complete environment (Web + API + Infrastructure)"; echo "  make up-web          Start Web application with infrastructure"; echo "  make up-api          Start API services with infrastructure"; echo "  make down            Stop all services"; echo ""; echo "Development Commands:"; echo "  make build           Build both Web and API projects"; echo "  make test            Run all tests"; echo "  make health          Check project and service health"; echo "  make logs            View service logs"; echo ""; echo "Setup Commands:"; echo "  make setup           Generate Web and API projects"; echo "  make clean           Clean all build outputs"
 
 up-fullstack: check-projects
-	@echo "Starting fullstack environment..."; COMPOSE_PROFILES=fullstack docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; echo "Environment started! Web: http://localhost:$${WEB_HTTP_PORT:-3000} API: http://localhost:$${API_HTTP_PORT:-5000}"
+	@echo "Starting fullstack environment..."; COMPOSE_PROFILES=fullstack docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; echo "Environment started! Web: http://localhost:$${WEB_HTTP_PORT:-3000} API: http://localhost:$${API_HTTP_PORT:-5100}"
 
 up-web: check-projects
 	@echo "Starting Web application with infrastructure..."; COMPOSE_PROFILES=web-infra docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; echo "Web application started! Web: http://localhost:$${WEB_HTTP_PORT:-3000}"
 
 up-api: check-projects
-	@echo "Starting API services with infrastructure..."; COMPOSE_PROFILES=backend-infra docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; echo "API services started! API: http://localhost:$${API_HTTP_PORT:-5000}"
+	@echo "Starting API services with infrastructure..."; COMPOSE_PROFILES=backend-infra docker compose --env-file .env.$(ENV) -f docker-compose.fullstack.yml up -d --build; echo "API services started! API: http://localhost:$${API_HTTP_PORT:-5100}"
 
 check-projects:
 	@if [ ! -d "$(WEB_PROJECT)" ] || [ ! -d "$(API_PROJECT)" ]; then \

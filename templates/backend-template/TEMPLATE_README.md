@@ -100,8 +100,8 @@ dotnet run --project src/Api
 2. **Start infrastructure**: `make up-dev`
 3. **Run the API**: `dotnet run --project src/Api`
 4. **Access services**:
-   - API: http://localhost:5000
-   - Swagger: http://localhost:5000/swagger
+   - API: http://localhost:5100
+   - Swagger: http://localhost:5100/swagger
    - Seq Logs: http://localhost:5341
    - Jaeger Tracing: http://localhost:16686
    - RabbitMQ: http://localhost:15672
