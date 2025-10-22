@@ -98,13 +98,37 @@ dotnet run --project src/Api
 
 1. **Clone and customize** the template
 2. **Start infrastructure**: `make up-dev`
-3. **Run the API**: `dotnet run --project src/Api`
+3. **Run the API**:
+   
+   **Option A: Run locally (outside container)**
+   ```bash
+   $env:ASPNETCORE_ENVIRONMENT="Local"  # Windows PowerShell
+   # export ASPNETCORE_ENVIRONMENT=Local  # Linux/macOS
+   dotnet run --project src/Api
+   ```
+   
+   **Option B: Run in container**
+   ```bash
+   docker compose up api
+   ```
+
 4. **Access services**:
    - API: http://localhost:5100
    - Swagger: http://localhost:5100/swagger
    - Seq Logs: http://localhost:5341
    - Jaeger Tracing: http://localhost:16686
    - RabbitMQ: http://localhost:15672
+
+### ⚙️ Configuration Files
+
+| File | Used When | Connection Target |
+|------|-----------|------------------|
+| `appsettings.Development.json` | API in Docker container | Docker services (`postgres`, `redis`) |
+| `appsettings.Local.json` | API on host via `dotnet run` | Localhost (`localhost:5432`, `localhost:6379`) |
+| `appsettings.Staging.json` | Staging environment | Staging endpoints |
+| `appsettings.Production.json` | Production environment | Production endpoints |
+
+**Note**: Set `ASPNETCORE_ENVIRONMENT=Local` when running API directly on your machine to use localhost connections.
 
 ## 📝 License
 
