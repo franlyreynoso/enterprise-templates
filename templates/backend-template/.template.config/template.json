@@ -13,6 +13,29 @@
   "sourceName": "EnterpriseTemplate",
   "preferNameDirectory": true,
   "symbols": {
+    "DbNameLower": {
+      "type": "generated",
+      "generator": "casing",
+      "parameters": {
+        "source": "name",
+        "toLower": true
+      }
+    },
+    "DbName": {
+      "type": "generated",
+      "generator": "regex",
+      "dataType": "string",
+      "replaces": "enterprisetemplate",
+      "parameters": {
+        "source": "DbNameLower",
+        "steps": [
+          {
+            "regex": "\\.",
+            "replacement": "_"
+          }
+        ]
+      }
+    },
     "cloud": {
       "type": "parameter",
       "datatype": "choice",
