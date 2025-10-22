@@ -25,27 +25,28 @@ processors:
         action: insert
 
   memory_limiter:
+    check_interval: 1s
     limit_mib: 512
 
 exporters:
-  jaeger:
-    endpoint: jaeger:14250
+  otlp:
+    endpoint: jaeger:4317
     tls:
       insecure: true
 
-  logging:
-    loglevel: info
+  debug:
+    verbosity: normal
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [memory_limiter, resource, batch]
-      exporters: [jaeger, logging]
+      exporters: [otlp, debug]
 
     metrics:
       receivers: [otlp]
       processors: [memory_limiter, resource, batch]
-      exporters: [logging]
+      exporters: [debug]
 
   extensions: []
